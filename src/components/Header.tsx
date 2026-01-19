@@ -33,9 +33,9 @@ export function Header() {
               className="h-8 w-8 brightness-0 invert"
             />
           </div>
-          <div className="hidden sm:block">
-            <span className="font-semibold text-navy">Mobile Notary</span>
-            <span className="block text-sm text-muted-foreground leading-tight">
+          <div>
+            <span className="font-semibold text-navy text-sm sm:text-base">Mobile Notary</span>
+            <span className="block text-xs sm:text-sm text-muted-foreground leading-tight">
               Management
             </span>
           </div>

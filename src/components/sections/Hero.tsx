@@ -124,7 +124,7 @@ export function Hero({ cityName }: HeroProps) {
 
           {/* Right side - Image */}
           <div className="relative">
-            <div className="relative w-full h-[280px] sm:h-[350px] md:h-[400px] lg:min-h-[500px] xl:min-h-[550px] flex items-center justify-center">
+            <div className="relative w-full h-[350px] sm:h-[400px] md:h-[450px] lg:min-h-[500px] xl:min-h-[550px] flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/elias.svg"

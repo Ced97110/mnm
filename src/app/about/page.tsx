@@ -42,15 +42,6 @@ const credentials = [
   },
 ];
 
-const milestones = [
-  { year: "2012", event: "Became a California Commissioned Notary Public" },
-  { year: "2013", event: "Completed NNA Signing Agent Certification" },
-  { year: "2015", event: "Expanded service to cover the entire Bay Area" },
-  { year: "2018", event: "Reached 5,000+ notarizations milestone" },
-  { year: "2020", event: "Added apostille and document authentication services" },
-  { year: "2024", event: "Celebrated 15,000+ documents notarized" },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -197,46 +188,6 @@ export default function AboutPage() {
                 Click to verify credentials →
               </p>
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Journey Timeline */}
-      <section className="py-16 md:py-20 bg-cream">
-        <div className="container mx-auto max-w-4xl px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">My Journey</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Building trust across the Bay Area, one notarization at a time
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gold/30 -translate-x-1/2" />
-
-            <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <div
-                  key={milestone.year}
-                  className={`relative flex items-center gap-6 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
-                >
-                  {/* Dot */}
-                  <div className="absolute left-4 md:left-1/2 w-4 h-4 rounded-full bg-gold border-4 border-cream -translate-x-1/2 z-10" />
-                  
-                  {/* Content */}
-                  <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"}`}>
-                    <span className="text-sm font-semibold text-gold">{milestone.year}</span>
-                    <p className="mt-1 text-muted-foreground">{milestone.event}</p>
-                  </div>
-                  
-                  {/* Spacer for alternating layout */}
-                  <div className="hidden md:block md:w-1/2" />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
