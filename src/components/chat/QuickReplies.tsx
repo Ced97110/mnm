@@ -1,6 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+// This component is kept for backward compatibility
+// The ChatPanel now uses AI Elements Suggestions components directly
+
+import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion";
 
 interface QuickRepliesProps {
   onSelect: (message: string) => void;
@@ -17,19 +20,18 @@ const quickReplies = [
 
 export function QuickReplies({ onSelect, disabled }: QuickRepliesProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <Suggestions className="gap-2 flex-wrap">
       {quickReplies.map((reply) => (
-        <Button
+        <Suggestion
           key={reply.label}
-          variant="outline"
-          size="sm"
-          onClick={() => onSelect(reply.message)}
+          suggestion={reply.message}
+          onClick={onSelect}
           disabled={disabled}
-          className="text-xs h-8 rounded-full border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy"
+          className="text-xs h-8 border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy"
         >
           {reply.label}
-        </Button>
+        </Suggestion>
       ))}
-    </div>
+    </Suggestions>
   );
 }

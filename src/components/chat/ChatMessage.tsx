@@ -1,36 +1,27 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+// This component is kept for backward compatibility
+// The ChatPanel now uses AI Elements Message components directly
+
+import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 
 interface ChatMessageProps {
   role: "user" | "assistant";
   content: string;
-  isStreaming?: boolean;
 }
 
-export function ChatMessage({ role, content, isStreaming }: ChatMessageProps) {
-  const isUser = role === "user";
-
+export function ChatMessage({ role, content }: ChatMessageProps) {
   return (
-    <div
-      className={cn(
-        "flex w-full",
-        isUser ? "justify-end" : "justify-start"
-      )}
-    >
-      <div
-        className={cn(
-          "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed",
-          isUser
-            ? "bg-navy text-white rounded-br-md"
-            : "bg-muted text-foreground rounded-bl-md"
-        )}
+    <Message from={role}>
+      <MessageContent
+        className={
+          role === "user"
+            ? "bg-navy text-white"
+            : "bg-muted"
+        }
       >
-        {content}
-        {isStreaming && (
-          <span className="ml-1 inline-block h-4 w-1 animate-pulse bg-current" />
-        )}
-      </div>
-    </div>
+        <MessageResponse>{content}</MessageResponse>
+      </MessageContent>
+    </Message>
   );
 }
