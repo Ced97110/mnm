@@ -15,12 +15,23 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+// Check if screen is large enough for animations (768px = md breakpoint)
+export function isLargeScreen(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(min-width: 768px)").matches;
+}
+
+// Combined check - should animations run?
+export function shouldAnimate(): boolean {
+  return isLargeScreen() && !prefersReducedMotion();
+}
+
 // Hook for fade-in animation on scroll
 export function useFadeIn(delay: number = 0) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion() || !ref.current) return;
+    if (!shouldAnimate() || !ref.current) return;
 
     const element = ref.current;
     
@@ -55,7 +66,7 @@ export function useStaggerChildren(staggerDelay: number = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion() || !ref.current) return;
+    if (!shouldAnimate() || !ref.current) return;
 
     const element = ref.current;
     const children = element.children;
@@ -91,7 +102,7 @@ export function useHeroAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion() || !containerRef.current) return;
+    if (!shouldAnimate() || !containerRef.current) return;
 
     const container = containerRef.current;
     const elements = {
@@ -134,7 +145,7 @@ export function useCountUp(
   const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (prefersReducedMotion() || !ref.current || hasAnimated.current) {
+    if (!shouldAnimate() || !ref.current || hasAnimated.current) {
       if (ref.current) {
         ref.current.textContent = `${endValue.toLocaleString()}${suffix}`;
       }
