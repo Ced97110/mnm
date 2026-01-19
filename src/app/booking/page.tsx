@@ -35,7 +35,7 @@ export default function BookingPage() {
         </div>
 
         {/* Alternative Contact */}
-        <div className="mt-8 text-center">
+        <div className="mt-9 text-center">
           <p className="text-muted-foreground">
             Prefer to speak with someone?{" "}
             <a 
