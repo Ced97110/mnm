@@ -54,9 +54,9 @@ export const metadata: Metadata = {
       "Owner-operated mobile notary serving the San Francisco Bay Area. I come to you 7 days a week—you work directly with me. Same-day appointments available.",
     images: [
       {
-        url: "/notary.jpg",
-        width: 1200,
-        height: 630,
+        url: "/favicon.png",
+        width: 512,
+        height: 512,
         alt: `${BUSINESS.name} - Professional Mobile Notary Services in San Francisco Bay Area`,
       },
     ],
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: `${BUSINESS.name} | Mobile Notary & Loan Signing Services`,
     description:
       "Owner-operated mobile notary serving the San Francisco Bay Area. I come to you 7 days a week.",
-    images: ["/notary.jpg"],
+    images: ["/favicon.png"],
   },
   robots: {
     index: true,

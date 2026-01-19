@@ -17,7 +17,7 @@ export function generateLocalBusinessSchema(city?: string) {
     "@id": "https://mobile-notary-management.com/#business",
     name: BUSINESS.name,
     description: "Owner-operated mobile notary serving the San Francisco Bay Area. You work directly with the notary for every appointment.",
-    image: "https://mobile-notary-management.com/notary.jpg",
+    image: "https://mobile-notary-management.com/favicon.png",
     telephone: BUSINESS.phone,
     email: BUSINESS.email,
     url: "https://mobile-notary-management.com",
