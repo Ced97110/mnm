@@ -60,13 +60,6 @@ export function Hero({ cityName }: HeroProps) {
             >
               I&apos;m your mobile notary—fast, reliable, and you&apos;ll work directly with me. Available 7 days a week, early morning to late evening.
             </p>
-            <p
-              data-hero-transparency
-              className="mt-3 text-sm text-gold font-medium"
-            >
-              Owner-operated (no dispatch). I personally handle every appointment.
-            </p>
-
             {/* CTAs */}
             <div
               data-hero-ctas

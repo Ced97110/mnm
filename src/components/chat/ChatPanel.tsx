@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Sparkles } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   Conversation,
@@ -64,17 +64,6 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
     }
   }, [isOpen]);
 
-  // Get message content as string from parts
-  const getMessageContent = (message: typeof messages[number]): string => {
-    if (!message.parts) return "";
-    return message.parts
-      .map((part) => {
-        if (part.type === "text") return part.text;
-        return "";
-      })
-      .join("");
-  };
-
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
     trackEvent("message_sent", { message: text });
@@ -97,8 +86,12 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
   const shouldShowLeadCTA =
     messages.length >= 4 ||
     messages.some((m) => {
-      if (m.role !== "user") return false;
-      const content = getMessageContent(m).toLowerCase();
+      if (m.role !== "user" || !m.parts) return false;
+      const content = m.parts
+        .filter((p) => p.type === "text")
+        .map((p) => (p as { type: "text"; text: string }).text)
+        .join("")
+        .toLowerCase();
       return (
         content.includes("book") ||
         content.includes("appointment") ||
@@ -111,24 +104,29 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-md p-0 flex flex-col h-full"
+        className="w-full sm:max-w-md p-0 flex flex-col h-full border-l border-border/50"
       >
-        {/* Header */}
-        <SheetHeader className="px-4 py-3 border-b bg-navy text-white shrink-0">
-          <SheetTitle className="text-white flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-            {BUSINESS.name} Assistant
+        {/* Header - Navy with gold accent */}
+        <SheetHeader className="px-4 py-4 border-b bg-navy text-white shrink-0">
+          <SheetTitle className="text-white flex items-center gap-2.5 text-base">
+            <div className="h-8 w-8 rounded-full bg-gold/20 flex items-center justify-center">
+              <Sparkles className="h-4 w-4 text-gold" />
+            </div>
+            <div>
+              <span className="font-semibold">{BUSINESS.name}</span>
+              <span className="block text-xs text-white/60 font-normal">AI Assistant</span>
+            </div>
           </SheetTitle>
         </SheetHeader>
 
-        {/* Messages using AI Elements Conversation */}
-        <Conversation className="flex-1">
+        {/* Messages - Following AI Elements pattern */}
+        <Conversation className="flex-1 bg-cream">
           <ConversationContent className="gap-4 p-4">
             {/* Welcome message */}
             {messages.length === 0 && (
               <>
                 <Message from="assistant">
-                  <MessageContent>
+                  <MessageContent className="bg-white border border-border/50 shadow-warm rounded-2xl rounded-tl-md px-4 py-3">
                     <MessageResponse>
                       Hi! 👋 I&apos;m here to help you with notary services in the Bay Area. How can I assist you today?
                     </MessageResponse>
@@ -141,7 +139,7 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
                       suggestion={reply.message}
                       onClick={handleQuickReply}
                       disabled={isLoading}
-                      className="text-xs h-8 border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy"
+                      className="text-xs h-9 bg-white border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy shadow-sm transition-all"
                     >
                       {reply.label}
                     </Suggestion>
@@ -150,19 +148,28 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
               </>
             )}
 
-            {/* Chat messages */}
-            {messages.map((message) => (
-              <Message key={message.id} from={message.role}>
+            {/* Chat messages - Following AI Elements usage pattern */}
+            {messages.map(({ id, role, parts }) => (
+              <Message from={role} key={id}>
                 <MessageContent
                   className={
-                    message.role === "user"
-                      ? "bg-navy text-white"
-                      : "bg-muted"
+                    role === "user"
+                      ? "bg-navy text-white rounded-2xl rounded-tr-md shadow-warm px-4 py-3"
+                      : "bg-white border border-border/50 shadow-warm rounded-2xl rounded-tl-md px-4 py-3"
                   }
                 >
-                  <MessageResponse>
-                    {getMessageContent(message)}
-                  </MessageResponse>
+                  {parts?.map((part, partIndex) => {
+                    switch (part.type) {
+                      case "text":
+                        return (
+                          <MessageResponse key={`${role}-${partIndex}`}>
+                            {part.text}
+                          </MessageResponse>
+                        );
+                      default:
+                        return null;
+                    }
+                  })}
                 </MessageContent>
               </Message>
             ))}
@@ -170,9 +177,9 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
             {/* Loading indicator */}
             {isLoading && (
               <Message from="assistant">
-                <MessageContent className="bg-muted">
+                <MessageContent className="bg-white border border-border/50 shadow-warm rounded-2xl rounded-tl-md px-4 py-3">
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <Loader size={14} />
+                    <Loader size={14} className="text-gold" />
                     <span className="text-sm">Thinking...</span>
                   </div>
                 </MessageContent>
@@ -196,7 +203,7 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
                       suggestion={reply.message}
                       onClick={handleQuickReply}
                       disabled={isLoading}
-                      className="text-xs h-8 border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy"
+                      className="text-xs h-9 bg-white border-border/60 hover:bg-gold/10 hover:border-gold/40 hover:text-navy shadow-sm transition-all"
                     >
                       {reply.label}
                     </Suggestion>
@@ -204,34 +211,34 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
                 </Suggestions>
               )}
           </ConversationContent>
-          <ConversationScrollButton />
+          <ConversationScrollButton className="bg-white border-border shadow-warm hover:bg-gold/10" />
         </Conversation>
 
         {/* Disclaimer */}
-        <div className="px-4 py-2 bg-muted/50 border-t shrink-0">
+        <div className="px-4 py-2 bg-cream border-t border-border/50 shrink-0">
           <p className="text-[10px] text-muted-foreground flex items-center gap-1">
             <AlertCircle className="h-3 w-3" />
             Not legal advice. For legal questions, consult an attorney.
           </p>
         </div>
 
-        {/* Input using AI Elements PromptInput */}
-        <div className="p-4 border-t bg-background shrink-0">
+        {/* Input */}
+        <div className="p-4 border-t border-border/50 bg-white shrink-0">
           <PromptInput
             onSubmit={({ text }) => handleSendMessage(text)}
-            className="rounded-lg border border-input bg-background shadow-sm"
+            className="rounded-xl border border-border bg-cream shadow-sm focus-within:border-gold/50 focus-within:ring-2 focus-within:ring-gold/20 transition-all"
           >
             <PromptInputTextarea
               placeholder="Type your message..."
               disabled={isLoading}
-              className="min-h-12 max-h-32 resize-none border-0 focus-visible:ring-0"
+              className="min-h-12 max-h-32 resize-none border-0 bg-transparent focus-visible:ring-0 placeholder:text-muted-foreground/60"
             />
             <PromptInputFooter className="p-2 pt-0">
               <div /> {/* Spacer */}
               <PromptInputSubmit
                 status={status}
                 disabled={isLoading}
-                className="bg-navy hover:bg-navy-light"
+                className="bg-navy hover:bg-navy-light text-white rounded-lg shadow-sm"
               />
             </PromptInputFooter>
           </PromptInput>

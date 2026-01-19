@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
+import { streamText, convertToModelMessages } from "ai";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -67,10 +67,13 @@ Keep responses concise (2-4 short paragraphs max). Use bullet points for lists. 
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
+  // Convert UI messages (with parts) to model-compatible format (with content)
+  const modelMessages = await convertToModelMessages(messages);
+
   const result = streamText({
     model: openai("gpt-4o-mini"),
     system: SYSTEM_PROMPT,
-    messages,
+    messages: modelMessages,
   });
 
   return result.toTextStreamResponse();

@@ -13,17 +13,21 @@ export function ChatButton({ isOpen, onClick }: ChatButtonProps) {
     <Button
       onClick={onClick}
       size="lg"
-      className={`fixed bottom-20 right-4 z-40 h-14 w-14 rounded-full shadow-lg transition-all duration-300 md:bottom-6 ${
+      className={`fixed bottom-20 right-4 z-40 h-14 w-14 rounded-full shadow-warm-lg transition-all duration-300 md:bottom-6 ${
         isOpen
-          ? "bg-muted hover:bg-muted/80 text-foreground"
-          : "bg-navy hover:bg-navy-light text-white"
+          ? "bg-muted hover:bg-muted/80 text-foreground border border-border"
+          : "bg-navy hover:bg-navy-light text-white ring-2 ring-gold/20"
       }`}
       aria-label={isOpen ? "Close chat" : "Open chat assistant"}
     >
       {isOpen ? (
         <X className="h-6 w-6" />
       ) : (
-        <MessageCircle className="h-6 w-6" />
+        <>
+          <MessageCircle className="h-6 w-6" />
+          {/* Pulse indicator */}
+          <span className="absolute -top-0.5 -right-0.5 h-3 w-3 rounded-full bg-gold animate-pulse" />
+        </>
       )}
     </Button>
   );
