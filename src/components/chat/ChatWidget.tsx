@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { ChatButton } from "./ChatButton";
+import { useChatContext } from "./ChatContext";
 
 // Lazy load the chat panel to avoid impacting initial page load
 const ChatPanel = lazy(() =>
@@ -9,15 +10,7 @@ const ChatPanel = lazy(() =>
 );
 
 export function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
-
-  const handleToggle = () => {
-    if (!hasOpened) {
-      setHasOpened(true);
-    }
-    setIsOpen((prev) => !prev);
-  };
+  const { isOpen, setIsOpen, toggle } = useChatContext();
 
   const handleClose = () => {
     setIsOpen(false);
@@ -25,8 +18,8 @@ export function ChatWidget() {
 
   return (
     <>
-      <ChatButton isOpen={isOpen} onClick={handleToggle} />
-      {hasOpened && (
+      <ChatButton isOpen={isOpen} onClick={toggle} />
+      {isOpen && (
         <Suspense fallback={null}>
           <ChatPanel isOpen={isOpen} onClose={handleClose} />
         </Suspense>

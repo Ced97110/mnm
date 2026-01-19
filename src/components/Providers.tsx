@@ -1,0 +1,12 @@
+"use client";
+
+import { ReactNode } from "react";
+import { ChatProvider } from "@/components/chat";
+
+interface ProvidersProps {
+  children: ReactNode;
+}
+
+export function Providers({ children }: ProvidersProps) {
+  return <ChatProvider>{children}</ChatProvider>;
+}

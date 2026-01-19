@@ -4,3 +4,4 @@ export { ChatPanel } from "./ChatPanel";
 export { ChatMessage } from "./ChatMessage";
 export { QuickReplies } from "./QuickReplies";
 export { LeadCTA } from "./LeadCTA";
+export { ChatProvider, useChatContext } from "./ChatContext";

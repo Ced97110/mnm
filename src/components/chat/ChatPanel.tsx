@@ -3,7 +3,8 @@
 import { useEffect, useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { AlertCircle, Sparkles } from "lucide-react";
+import { AlertCircle, Sparkles, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   Conversation,
@@ -104,11 +105,12 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent
         side="right"
+        hideCloseButton
         className="w-full sm:max-w-md p-0 flex flex-col h-full border-l border-border/50"
       >
-        {/* Header - Navy with gold accent */}
-        <SheetHeader className="px-4 py-4 border-b bg-navy text-white shrink-0">
-          <SheetTitle className="text-white flex items-center gap-2.5 text-base">
+        {/* Header - Navy with gold accent and close button */}
+        <SheetHeader className="px-4 py-4 border-b bg-navy text-white shrink-0 relative">
+          <SheetTitle className="text-white flex items-center gap-2.5 text-base pr-10">
             <div className="h-8 w-8 rounded-full bg-gold/20 flex items-center justify-center">
               <Sparkles className="h-4 w-4 text-gold" />
             </div>
@@ -117,6 +119,16 @@ export function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
               <span className="block text-xs text-white/60 font-normal">AI Assistant</span>
             </div>
           </SheetTitle>
+          {/* Close button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="absolute top-3 right-3 h-8 w-8 text-white/70 hover:text-white hover:bg-white/10 rounded-full"
+            aria-label="Close chat"
+          >
+            <X className="h-5 w-5" />
+          </Button>
         </SheetHeader>
 
         {/* Messages - Following AI Elements pattern */}

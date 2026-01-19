@@ -13,7 +13,7 @@ export function ChatButton({ isOpen, onClick }: ChatButtonProps) {
     <Button
       onClick={onClick}
       size="lg"
-      className={`fixed bottom-20 right-4 z-40 h-14 w-14 rounded-full shadow-warm-lg transition-all duration-300 md:bottom-6 ${
+      className={`fixed bottom-6 right-4 z-[60] h-14 w-14 rounded-full shadow-warm-lg transition-all duration-300 hidden md:flex ${
         isOpen
           ? "bg-muted hover:bg-muted/80 text-foreground border border-border"
           : "bg-navy hover:bg-navy-light text-white ring-2 ring-gold/20"
