@@ -17,7 +17,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import {
   getServiceAreaContent,
   getAllServiceAreaSlugs,
-} from "@/lib/service-area-content";
+} from "@/lib/get-content";
 import { generateLocalBusinessSchema, generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
 import { BUSINESS, SERVICE_AREAS, SERVICES } from "@/lib/constants";
 import { CITIES } from "@/lib/cities";

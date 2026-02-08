@@ -1034,6 +1034,9 @@ const blogPosts: BlogPost[] = [
 // Export functions
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Export the content constant
+export const BLOG_CONTENT = blogPosts;
+
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug);
 }

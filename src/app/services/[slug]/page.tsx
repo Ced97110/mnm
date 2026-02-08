@@ -22,7 +22,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import {
   getServicePageContent,
   getAllServicePageSlugs,
-} from "@/lib/service-page-content";
+} from "@/lib/get-content";
 import {
   generateDetailedServiceSchema,
   generateFAQSchema,

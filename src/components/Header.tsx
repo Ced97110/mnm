@@ -1,29 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, Phone, MessageSquare, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { BUSINESS } from "@/lib/constants";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-const navItems = [
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Blog", href: "/blog" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "FAQ", href: "/#faq" },
-];
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 export function Header() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+  const localePrefix = locale === 'es' ? '/es' : '';
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) {
+    // Loading state - show minimal header
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <Link href={localePrefix + "/"} className="flex items-center gap-2">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-navy p-2">
+              <Image
+                src="/quil.png"
+                alt="Mobile Notary Management"
+                width={32}
+                height={32}
+                className="h-8 w-8 brightness-0 invert"
+              />
+            </div>
+            <div>
+              <span className="font-semibold text-navy text-sm sm:text-base">Mobile Notary</span>
+              <span className="block text-xs sm:text-sm text-muted-foreground leading-tight">
+                Management
+              </span>
+            </div>
+          </Link>
+        </div>
+      </header>
+    );
+  }
+
+  const navItems = [
+    { label: dict.nav.about, href: `${localePrefix}/about` },
+    { label: dict.nav.services, href: `${localePrefix}/services` },
+    { label: dict.nav.blog, href: `${localePrefix}/blog` },
+    { label: "Pricing", href: `${localePrefix}/#pricing` },
+    { label: "FAQ", href: `${localePrefix}/#faq` },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={localePrefix + "/"} className="flex items-center gap-2">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-navy p-2">
             <Image
               src="/quil.png"
@@ -56,6 +102,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <LanguageSwitcher />
           <Button variant="outline" size="sm" asChild>
             <a href={BUSINESS.phoneLink} className="gap-2">
               <Phone className="h-4 w-4" />
@@ -63,7 +110,7 @@ export function Header() {
             </a>
           </Button>
           <Button size="sm" asChild className="bg-navy hover:bg-navy-light">
-            <a href="/booking">Book Now</a>
+            <a href={`${localePrefix}/booking`}>{dict.nav.services}</a>
           </Button>
         </div>
 
@@ -77,7 +124,7 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] p-0 bg-background">
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-            
+
             {/* Menu Header with Logo */}
             <div className="flex items-center gap-3 px-6 py-5 border-b border-border">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-navy p-2">
@@ -116,12 +163,12 @@ export function Header() {
 
             {/* CTA Section */}
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-muted/30">
-              <p className="text-xs text-muted-foreground mb-3 px-1">Get in touch</p>
+              <p className="text-xs text-muted-foreground mb-3 px-1">{dict.footer.contactMe}</p>
               <div className="grid grid-cols-2 gap-2 mb-2">
                 <Button variant="default" asChild className="h-11 bg-navy hover:bg-navy-light gap-2">
                   <a href={BUSINESS.phoneLink}>
                     <Phone className="h-4 w-4" />
-                    Call
+                    {dict.mobileCta.call}
                   </a>
                 </Button>
                 <Button variant="outline" asChild className="h-11 gap-2">
@@ -132,9 +179,9 @@ export function Header() {
                 </Button>
               </div>
               <Button asChild className="w-full h-12 bg-gold hover:bg-gold-light text-navy gap-2 font-semibold">
-                <a href="/booking" onClick={() => setIsOpen(false)}>
+                <a href={`${localePrefix}/booking`} onClick={() => setIsOpen(false)}>
                   <Calendar className="h-5 w-5" />
-                  Book Appointment
+                  {dict.footer.bookAppointment}
                 </a>
               </Button>
             </div>

@@ -8,7 +8,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import {
   getBlogPost,
   getAllBlogPosts,
-} from "@/lib/blog-content";
+} from "@/lib/get-content";
 import {
   generateArticleSchema,
   generateBreadcrumbSchema,

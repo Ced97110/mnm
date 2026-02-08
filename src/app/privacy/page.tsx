@@ -94,7 +94,27 @@ export default function PrivacyPage() {
           </p>
 
           <h2 className="text-xl font-semibold text-navy mt-8 mb-4">
-            6. Contact Us
+            6. SMS Communications
+          </h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            If you consent to receive SMS messages from us:
+          </p>
+          <ul className="list-disc pl-6 text-muted-foreground space-y-2 mb-4">
+            <li>Your phone number is used only to send review request messages</li>
+            <li>We send only one message per appointment</li>
+            <li>We do not share your phone number with third parties for marketing</li>
+            <li>You can opt out anytime by replying STOP</li>
+            <li>Message and data rates may apply based on your carrier</li>
+          </ul>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            For full SMS terms and conditions, see our{" "}
+            <Link href="/sms-terms" className="text-navy hover:text-gold underline">
+              SMS Terms page
+            </Link>.
+          </p>
+
+          <h2 className="text-xl font-semibold text-navy mt-8 mb-4">
+            7. Contact Us
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
             If you have questions about this privacy policy, please contact us:
@@ -105,7 +125,7 @@ export default function PrivacyPage() {
           </ul>
 
           <h2 className="text-xl font-semibold text-navy mt-8 mb-4">
-            7. Changes to This Policy
+            8. Changes to This Policy
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             I may update this privacy policy from time to time. Changes will be

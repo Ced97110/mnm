@@ -1,0 +1,205 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "serviceAreas": "Áreas de Servicio",
+    "blog": "Blog",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "pricing": "Precios",
+    "faq": "Preguntas Frecuentes"
+  },
+  "hero": {
+    "badge": "Citas el Mismo Día Disponibles",
+    "title": "Notario Móvil Profesional",
+    "titleLocation": "en el Área de la Bahía",
+    "subtitle": "Soy su notario móvil—rápido, confiable, y trabajará directamente conmigo. Disponible 7 días a la semana, desde temprano en la mañana hasta tarde en la noche.",
+    "cta": {
+      "primary": "Llamar para Servicio el Mismo Día",
+      "secondary": "Reservar Cita"
+    },
+    "trust": {
+      "licensed": "Licenciado y Asegurado"
+    }
+  },
+  "services": {
+    "title": "Servicios Notariales que Vienen a Usted",
+    "subtitle": "Ya sea un cierre de bienes raíces, poder notarial, o documentos para uso internacional—lo manejo todo personalmente, con cita previa.",
+    "cta": "Ver Todos los Servicios"
+  },
+  "howItWorks": {
+    "title": "Cómo Funciona",
+    "subtitle": "Nunca ha sido tan fácil notarizar sus documentos. Tres simples pasos para completarlo.",
+    "steps": {
+      "step1": {
+        "title": "Llamar o Reservar en Línea",
+        "description": "Contácteme por teléfono, texto, o use el formulario de reserva en línea. Dígame qué documentos necesita notarizar y su ubicación preferida."
+      },
+      "step2": {
+        "title": "Voy a Usted",
+        "description": "Confirmaré mi disponibilidad y lo encontraré en su ubicación elegida—casa, oficina, hospital, o cualquier lugar en el Área de la Bahía. Servicio el mismo día disponible."
+      },
+      "step3": {
+        "title": "Firmar y Listo",
+        "description": "Presente su identificación, firme sus documentos frente a mí, y habrá terminado. Acepto efectivo, tarjetas, Venmo y Zelle."
+      }
+    }
+  },
+  "serviceAreas": {
+    "title": "Sirviendo Toda el Área de la Bahía",
+    "subtitle": "Servicios de notario móvil en San Francisco, Oakland, San José y todas las ciudades circundantes.",
+    "viewAll": "Ver Todas las Ciudades"
+  },
+  "testimonials": {
+    "badge": "Calificación de 4.9 Estrellas",
+    "title": "Lo Que Dicen los Clientes",
+    "subtitle": "Los clientes me eligen por comunicación clara, puntualidad y una experiencia de firma fluida.",
+    "viewReviews": "Ver Reseñas en Yelp",
+    "stats": {
+      "documents": "Documentos Notarizados",
+      "experience": "Años de Experiencia",
+      "rating": "Calificación Promedio",
+      "reviews": "Reseñas de Google"
+    }
+  },
+  "pricing": {
+    "title": "Precios Transparentes",
+    "subtitle": "Mis servicios de notario se adhieren estrictamente a las pautas de precios establecidas por el estado de California y la Asociación Nacional de Notarios.",
+    "notaryServices": "Servicios Notariales",
+    "stateGuidelines": "Precios del Estado de CA",
+    "standardDescription": "Tarifas de notarización estándar según las pautas de California",
+    "additionalCharges": "Cargos Adicionales",
+    "additionalDescription": "Cuando sea aplicable, las tarifas adicionales pueden incluir:",
+    "fees": {
+      "realEstate": "Documentos de Bienes Raíces",
+      "wills": "Testamentos",
+      "trusts": "Documentos de Fideicomiso",
+      "loanSignings": "Firmas de Préstamos",
+      "powerOfAttorney": "Poder Notarial",
+      "affidavits": "Declaraciones Juradas",
+      "divorce": "Documentos de Divorcio",
+      "acknowledgments": "Reconocimientos",
+      "apostille": "Servicios de Apostilla",
+      "apostilleDescription": "Autenticación de documentos internacionales",
+      "perSignature": "por firma",
+      "callForInfo": "Llamar para Más Info",
+      "travelLabel": "Gastos de viaje",
+      "travelDescription": "Según la distancia a su ubicación",
+      "afterHoursLabel": "Servicio fuera de horario",
+      "afterHoursDescription": "Citas fuera del horario comercial regular",
+      "sameDayLabel": "Prioridad el mismo día",
+      "sameDayDescription": "Programación acelerada cuando esté disponible",
+      "exceptionalLabel": "Circunstancias excepcionales",
+      "exceptionalDescription": "Arreglos especiales según sea necesario"
+    },
+    "transparencyNote": "Priorizo la transparencia y equidad en mis precios, asegurando una experiencia notarial fluida y confiable para cada cliente.",
+    "bookAppointment": "Reserve Su Cita",
+    "calculateTravel": "Calcule Su Tarifa de Viaje",
+    "calculateSubtitle": "Obtenga un estimado instantáneo basado en su ubicación",
+    "paymentNote": "Todas las tarifas se cotizan por adelantado antes de su cita. Acepto efectivo, tarjetas, Venmo, Zelle y PayPal."
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Preguntas comunes sobre servicios de notario móvil"
+  },
+  "finalCta": {
+    "title": "¿Listo para Notarizar Sus Documentos?",
+    "subtitle": "Evite la molestia de buscar una oficina de notario. Iré a usted—a su casa, oficina, o cualquier lugar en el Área de la Bahía. Confirmaré mi disponibilidad y lo encontraré en su ubicación.",
+    "callButton": "Llamar",
+    "textButton": "Enviar Mensaje",
+    "contactNote": "Me contactará directamente. El texto suele ser la forma más rápida de contactarme.",
+    "noObligation": "Cotización sin obligación",
+    "fastResponse": "Usualmente respondo en 15 min",
+    "formTitle": "Solicitar una Cita",
+    "formSubtitle": "Complete este formulario rápido y me comunicaré con usted dentro de 15 minutos durante el horario comercial.",
+    "formName": "Su Nombre",
+    "formPhone": "Número de Teléfono",
+    "formService": "Tipo de Servicio",
+    "formServicePlaceholder": "Seleccione un servicio...",
+    "formServices": {
+      "mobileNotary": "Notario Móvil",
+      "loanSigning": "Firma de Préstamo",
+      "apostille": "Servicio de Apostilla",
+      "hospital": "Hospital/Centro de Cuidado",
+      "other": "Otro"
+    },
+    "formLocation": "Su Ubicación (Ciudad)",
+    "formSubmit": "Solicitar Llamada",
+    "formDisclaimer": "Al enviar, acepta recibir una llamada o texto al número proporcionado.",
+    "successTitle": "¡Solicitud Recibida!",
+    "successMessage": "Le llamaré dentro de 15 minutos para confirmar su cita."
+  },
+  "footer": {
+    "description": "Notario móvil operado por el propietario sirviendo el Área de la Bahía de San Francisco. Usted trabaja directamente conmigo en cada cita. Licenciado y asegurado.",
+    "contactMe": "Contácteme",
+    "services": "Servicios",
+    "resources": "Recursos",
+    "allServices": "Todos los Servicios",
+    "bookAppointment": "Reservar Cita",
+    "privacyPolicy": "Política de Privacidad",
+    "servingArea": "Sirviendo toda el Área de la Bahía",
+    "hours": "Horario",
+    "hoursWeekdays": "Lun-Vie",
+    "hoursWeekends": "Sáb-Dom",
+    "followUs": "Síguenos",
+    "copyright": "Todos los derechos reservados",
+    "certified": "Licenciado y Asegurado • Agente de Firma Certificado por NNA"
+  },
+  "mobileCta": {
+    "call": "Llamar",
+    "text": "Texto",
+    "book": "Reservar Cita"
+  },
+  "travelCalculator": {
+    "title": "Calcule Su Tarifa de Viaje",
+    "subtitle": "Obtenga un estimado instantáneo basado en su ubicación actual",
+    "button": "Obtener Mi Estimado de Tarifa de Viaje",
+    "buttonLoading": "Obteniendo su ubicación...",
+    "tryAgain": "Intentar de Nuevo",
+    "errors": {
+      "notSupported": "La geolocalización no es compatible con su navegador",
+      "failed": "No se pudo calcular la tarifa de viaje. Por favor, inténtelo de nuevo.",
+      "permissionDenied": "Acceso a la ubicación denegado. Por favor, habilite los permisos de ubicación.",
+      "unavailable": "Información de ubicación no disponible.",
+      "timeout": "La solicitud de ubicación expiró.",
+      "unknown": "No se pudo obtener su ubicación."
+    },
+    "location": {
+      "milesAway": "millas de distancia",
+      "minutesDrive": "minutos en auto",
+      "realTime": "Tiempo Real",
+      "estimated": "Estimado"
+    },
+    "feeEstimate": "Estimado de Tarifa de Viaje",
+    "perSignature": "Más $15 por firma notarizada",
+    "breakdown": {
+      "title": "Desglose de Tarifa",
+      "baseRate": "Tarifa base",
+      "perMile": "por milla",
+      "calculation": "Cálculo",
+      "minimum": "Tarifa mínima",
+      "maximum": "Tarifa máxima",
+      "range": "Rango de estimado"
+    },
+    "included": {
+      "title": "Qué incluye:",
+      "comeToYou": "Voy a su ubicación",
+      "noParking": "No necesita encontrar estacionamiento o viajar",
+      "sameDay": "Citas el mismo día disponibles",
+      "evenings": "Servicio disponible por las noches y fines de semana"
+    },
+    "callToBook": "Llamar para Reservar",
+    "calculateAgain": "Calcular de Nuevo",
+    "privacyNote": "Su ubicación solo se usa para calcular la tarifa de viaje y no se almacena."
+  },
+  "common": {
+    "readMore": "Leer Más",
+    "learnMore": "Aprender Más",
+    "getStarted": "Comenzar",
+    "contactUs": "Contáctenos",
+    "callNow": "Llamar Ahora",
+    "bookOnline": "Reservar en Línea",
+    "viewServices": "Ver Servicios",
+    "viewServiceAreas": "Ver Áreas de Servicio"
+  }
+}

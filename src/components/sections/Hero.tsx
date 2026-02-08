@@ -1,19 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Phone, Calendar, Shield, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BUSINESS } from "@/lib/constants";
 import { useHeroAnimation } from "@/lib/animations";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 interface HeroProps {
   cityName?: string;
 }
 
 export function Hero({ cityName }: HeroProps) {
+  const pathname = usePathname();
   const containerRef = useHeroAnimation();
-  const locationText = cityName ? `in ${cityName}` : "in the Bay Area";
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+  const localePrefix = locale === 'es' ? '/es' : '';
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) {
+    return null; // Loading state
+  }
+
+  const locationText = cityName
+    ? `${locale === 'es' ? 'en' : 'in'} ${cityName}`
+    : dict.hero.titleLocation;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-cream to-white">
@@ -40,7 +66,7 @@ export function Hero({ cityName }: HeroProps) {
                 className="mb-6 bg-gold/10 text-navy border-gold/20 px-4 py-1.5"
               >
                 <CheckCircle className="mr-1.5 h-3.5 w-3.5 text-gold" />
-                Same-Day Appointments Available
+                {dict.hero.badge}
               </Badge>
             </div>
 
@@ -49,7 +75,7 @@ export function Hero({ cityName }: HeroProps) {
               data-hero-title
               className="text-4xl font-bold tracking-tight text-navy sm:text-5xl lg:text-[3.25rem] lg:leading-[1.15]"
             >
-              Professional Mobile Notary{" "}
+              {dict.hero.title}{" "}
               <span className="text-gold">{locationText}</span>
             </h1>
 
@@ -58,7 +84,7 @@ export function Hero({ cityName }: HeroProps) {
               data-hero-subtitle
               className="mt-6 text-lg text-muted-foreground sm:text-xl max-w-xl leading-relaxed"
             >
-              I&apos;m your mobile notary—fast, reliable, and you&apos;ll work directly with me. Available 7 days a week, early morning to late evening.
+              {dict.hero.subtitle}
             </p>
             {/* CTAs */}
             <div
@@ -72,7 +98,7 @@ export function Hero({ cityName }: HeroProps) {
               >
                 <a href={BUSINESS.phoneLink}>
                   <Phone className="h-5 w-5" />
-                  Call for Same-Day Service
+                  {dict.hero.cta.primary}
                 </a>
               </Button>
               <Button
@@ -81,9 +107,9 @@ export function Hero({ cityName }: HeroProps) {
                 asChild
                 className="text-lg h-14 px-8 gap-2 border-2"
               >
-                <a href="/booking">
+                <a href={`${localePrefix}/booking`}>
                   <Calendar className="h-5 w-5" />
-                  Book Appointment
+                  {dict.hero.cta.secondary}
                 </a>
               </Button>
             </div>
@@ -95,7 +121,7 @@ export function Hero({ cityName }: HeroProps) {
             >
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-gold" />
-                <span>Licensed & Insured</span>
+                <span>{dict.hero.trust.licensed}</span>
               </div>
               <Image
                 src="/certificate.png"

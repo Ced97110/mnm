@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Phone, MessageSquare, Send, CheckCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,9 +9,18 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BUSINESS } from "@/lib/constants";
 import { useFadeIn } from "@/lib/animations";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 export function FinalCTA() {
+  const pathname = usePathname();
   const fadeRef = useFadeIn();
+  const [dict, setDict] = useState<Dictionary | null>(null);
   const [formState, setFormState] = useState({
     name: "",
     phone: "",
@@ -19,11 +29,22 @@ export function FinalCTA() {
     submitted: false,
   });
 
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In production, this would send to an API
     setFormState((prev) => ({ ...prev, submitted: true }));
   };
+
+  if (!dict) {
+    return null; // Loading state
+  }
 
   return (
     <section id="book" className="py-16 md:py-24 bg-gradient-to-b from-white to-cream">
@@ -32,12 +53,10 @@ export function FinalCTA() {
           {/* Left side - CTA text */}
           <div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Ready to Get Your Documents Notarized?
+              {dict.finalCta.title}
             </h2>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Skip the hassle of finding a notary office. I&apos;ll come to you—at your
-              home, office, or anywhere in the Bay Area. I&apos;ll confirm my availability
-              and meet you at your location.
+              {dict.finalCta.subtitle}
             </p>
 
             {/* Quick contact options */}
@@ -49,7 +68,7 @@ export function FinalCTA() {
               >
                 <a href={BUSINESS.phoneLink}>
                   <Phone className="h-5 w-5" />
-                  Call {BUSINESS.phone}
+                  {dict.finalCta.callButton} {BUSINESS.phone}
                 </a>
               </Button>
               <Button
@@ -60,23 +79,23 @@ export function FinalCTA() {
               >
                 <a href={BUSINESS.textLink}>
                   <MessageSquare className="h-5 w-5" />
-                  Text Me
+                  {dict.finalCta.textButton}
                 </a>
               </Button>
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
-              You&apos;ll reach me directly. Text is usually the fastest way to reach me.
+              {dict.finalCta.contactNote}
             </p>
 
             {/* Trust signals */}
             <div className="mt-8 flex flex-wrap gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-gold" />
-                <span>No obligation quote</span>
+                <span>{dict.finalCta.noObligation}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-gold" />
-                <span>Usually respond in 15 min</span>
+                <span>{dict.finalCta.fastResponse}</span>
               </div>
             </div>
           </div>
@@ -84,10 +103,9 @@ export function FinalCTA() {
           {/* Right side - Booking form */}
           <Card className="shadow-warm-lg border-border/50">
             <CardHeader>
-              <CardTitle>Request an Appointment</CardTitle>
+              <CardTitle>{dict.finalCta.formTitle}</CardTitle>
               <CardDescription>
-                Fill out this quick form and I&apos;ll get back to you within 15
-                minutes during business hours.
+                {dict.finalCta.formSubtitle}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -96,17 +114,16 @@ export function FinalCTA() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
                     <CheckCircle className="h-8 w-8 text-success" />
                   </div>
-                  <h3 className="text-xl font-semibold">Request Received!</h3>
+                  <h3 className="text-xl font-semibold">{dict.finalCta.successTitle}</h3>
                   <p className="mt-2 text-muted-foreground">
-                    I&apos;ll call you back within 15 minutes to confirm your
-                    appointment.
+                    {dict.finalCta.successMessage}
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Your Name</Label>
+                      <Label htmlFor="name">{dict.finalCta.formName}</Label>
                       <Input
                         id="name"
                         placeholder="John Smith"
@@ -118,7 +135,7 @@ export function FinalCTA() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">{dict.finalCta.formPhone}</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -133,7 +150,7 @@ export function FinalCTA() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="service">Type of Service</Label>
+                    <Label htmlFor="service">{dict.finalCta.formService}</Label>
                     <select
                       id="service"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -142,17 +159,17 @@ export function FinalCTA() {
                         setFormState((prev) => ({ ...prev, service: e.target.value }))
                       }
                     >
-                      <option value="">Select a service...</option>
-                      <option value="mobile-notary">Mobile Notary</option>
-                      <option value="loan-signing">Loan Signing</option>
-                      <option value="apostille">Apostille Service</option>
-                      <option value="hospital">Hospital/Care Facility</option>
-                      <option value="other">Other</option>
+                      <option value="">{dict.finalCta.formServicePlaceholder}</option>
+                      <option value="mobile-notary">{dict.finalCta.formServices.mobileNotary}</option>
+                      <option value="loan-signing">{dict.finalCta.formServices.loanSigning}</option>
+                      <option value="apostille">{dict.finalCta.formServices.apostille}</option>
+                      <option value="hospital">{dict.finalCta.formServices.hospital}</option>
+                      <option value="other">{dict.finalCta.formServices.other}</option>
                     </select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="location">Your Location (City)</Label>
+                    <Label htmlFor="location">{dict.finalCta.formLocation}</Label>
                     <Input
                       id="location"
                       placeholder="San Francisco"
@@ -169,12 +186,11 @@ export function FinalCTA() {
                     className="w-full bg-gold hover:bg-gold-light text-navy gap-2 h-12"
                   >
                     <Send className="h-4 w-4" />
-                    Request Callback
+                    {dict.finalCta.formSubmit}
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    By submitting, you agree to receive a call or text at the
-                    number provided.
+                    {dict.finalCta.formDisclaimer}
                   </p>
                 </form>
               )}

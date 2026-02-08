@@ -1,11 +1,21 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Car, Home, Globe, Heart, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SERVICES } from "@/lib/constants";
+import { SERVICES as SERVICES_ES } from "@/lib/constants-es";
 import { useStaggerChildren } from "@/lib/animations";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 const iconMap = {
   car: Car,
@@ -15,7 +25,22 @@ const iconMap = {
 };
 
 export function Services() {
+  const pathname = usePathname();
   const containerRef = useStaggerChildren(0.1);
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+  const localePrefix = locale === 'es' ? '/es' : '';
+  const services = locale === 'es' ? SERVICES_ES : SERVICES;
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) {
+    return null; // Loading state
+  }
 
   return (
     <section id="services" className="py-16 md:py-24 bg-white">
@@ -23,17 +48,16 @@ export function Services() {
         {/* Section header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Notary Services That Come to You
+            {dict.services.title}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Whether it&apos;s a real estate closing, power of attorney, or documents
-            for international use—I handle it all personally, by appointment.
+            {dict.services.subtitle}
           </p>
         </div>
 
         {/* Services grid */}
         <div ref={containerRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((service) => {
+          {services.map((service) => {
             const Icon = iconMap[service.icon as keyof typeof iconMap];
             return (
               <Card
@@ -64,8 +88,8 @@ export function Services() {
                         asChild
                         className="text-navy hover:text-gold"
                       >
-                        <Link href={`/services/${service.slug}`} className="gap-1">
-                          Learn More <ArrowRight className="h-3.5 w-3.5" />
+                        <Link href={`${localePrefix}/services/${service.slug}`} className="gap-1">
+                          {dict.common.learnMore} <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                       </Button>
                     </div>

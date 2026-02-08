@@ -15,12 +15,25 @@ interface ArticleCardProps {
     src: string;
     alt: string;
   };
+  locale?: "en" | "es";
 }
 
-const categoryLabels: Record<string, string> = {
-  guides: "Guide",
-  faq: "FAQ",
-  comparisons: "Comparison",
+const categoryLabels: Record<string, Record<string, string>> = {
+  en: {
+    guides: "Guide",
+    faq: "FAQ",
+    comparisons: "Comparison",
+  },
+  es: {
+    guides: "Guía",
+    faq: "Preguntas Frecuentes",
+    comparisons: "Comparación",
+  },
+};
+
+const readMoreLabels: Record<string, string> = {
+  en: "Read more",
+  es: "Leer más",
 };
 
 export function ArticleCard({
@@ -31,15 +44,19 @@ export function ArticleCard({
   readTime,
   category,
   heroImage,
+  locale = "en",
 }: ArticleCardProps) {
-  const formattedDate = new Date(datePublished).toLocaleDateString("en-US", {
+  const localeCode = locale === "es" ? "es-ES" : "en-US";
+  const formattedDate = new Date(datePublished).toLocaleDateString(localeCode, {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
+  const blogPath = locale === "es" ? "/es/blog" : "/blog";
+
   return (
-    <Link href={`/blog/${slug}`} className="group">
+    <Link href={`${blogPath}/${slug}`} className="group">
       <Card className="h-full overflow-hidden border-border/50 transition-all duration-300 hover:shadow-warm hover:border-gold/30">
         {/* Hero Image on Top */}
         {heroImage && (
@@ -64,7 +81,7 @@ export function ArticleCard({
               variant="secondary"
               className="bg-gold/10 text-navy border-gold/20 text-xs"
             >
-              {categoryLabels[category] || category}
+              {categoryLabels[locale][category] || category}
             </Badge>
             <span className="text-xs text-muted-foreground flex items-center gap-1">
               <Clock className="h-3 w-3" />
@@ -84,7 +101,7 @@ export function ArticleCard({
               {formattedDate}
             </span>
             <span className="inline-flex items-center text-sm font-medium text-gold gap-1">
-              Read more <ChevronRight className="h-3.5 w-3.5" />
+              {readMoreLabels[locale]} <ChevronRight className="h-3.5 w-3.5" />
             </span>
           </div>
         </CardContent>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +11,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { HelpCircle } from "lucide-react";
 import { FAQS } from "@/lib/constants";
+import { FAQS as FAQS_ES } from "@/lib/constants-es";
 import { useFadeIn } from "@/lib/animations";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 interface FAQProps {
   faqs?: typeof FAQS;
@@ -18,11 +28,29 @@ interface FAQProps {
 }
 
 export function FAQ({
-  faqs = FAQS,
-  title = "Frequently Asked Questions",
-  subtitle = "Got questions? I've got answers. If you don't see what you're looking for, give me a call.",
+  faqs,
+  title,
+  subtitle,
 }: FAQProps) {
+  const pathname = usePathname();
   const fadeRef = useFadeIn();
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) {
+    return null; // Loading state
+  }
+
+  // Use provided props or fall back to locale-appropriate defaults
+  const displayFaqs = faqs || (locale === 'es' ? FAQS_ES : FAQS);
+  const displayTitle = title || dict.faq.title;
+  const displaySubtitle = subtitle || dict.faq.subtitle;
 
   return (
     <section id="faq" className="py-16 md:py-24 bg-white">
@@ -37,15 +65,15 @@ export function FAQ({
             FAQ
           </Badge>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {title}
+            {displayTitle}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">{subtitle}</p>
+          <p className="mt-4 text-lg text-muted-foreground">{displaySubtitle}</p>
         </div>
 
         {/* Accordion */}
         <div ref={fadeRef}>
           <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
+            {displayFaqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left font-medium hover:text-gold">
                   {faq.question}

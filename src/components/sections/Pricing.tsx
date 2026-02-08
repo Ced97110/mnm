@@ -1,34 +1,58 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Check, Info, Phone } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { TravelPriceCalculator } from "@/components/TravelPriceCalculator";
 import { useFadeIn } from "@/lib/animations";
 import { BUSINESS } from "@/lib/constants";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
-// Standard notary services - California state pricing ($15 per signature)
-const standardServices = [
-  { name: "Real Estate Documents", price: "$15.00", unit: "per signature" },
-  { name: "Wills and Testaments", price: "$15.00", unit: "per signature" },
-  { name: "Trust Documents", price: "$15.00", unit: "per signature" },
-  { name: "Loan Signings", price: "$15.00", unit: "per signature" },
-  { name: "Power of Attorney", price: "$15.00", unit: "per signature" },
-  { name: "Affidavits", price: "$15.00", unit: "per signature" },
-  { name: "Divorce Documents", price: "$15.00", unit: "per signature" },
-  { name: "Acknowledgments", price: "$15.00", unit: "per signature" },
-];
-
-// Additional fees that may apply
-const additionalFees = [
-  { label: "Travel expenses", description: "Based on distance to your location" },
-  { label: "After-hours service", description: "Appointments outside regular business hours" },
-  { label: "Same-day priority", description: "Expedited scheduling when available" },
-  { label: "Exceptional circumstances", description: "Special arrangements as needed" },
-];
+// Import dictionaries directly in client component
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 export function Pricing() {
+  const pathname = usePathname();
   const fadeRef = useFadeIn();
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  // Detect locale from pathname
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+  const localePrefix = locale === 'es' ? '/es' : '';
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) {
+    return null; // Loading state
+  }
+
+  // Standard notary services - California state pricing ($15 per signature)
+  const standardServices = [
+    { name: dict.pricing.fees.realEstate, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.wills, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.trusts, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.loanSignings, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.powerOfAttorney, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.affidavits, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.divorce, price: "$15.00", unit: dict.pricing.fees.perSignature },
+    { name: dict.pricing.fees.acknowledgments, price: "$15.00", unit: dict.pricing.fees.perSignature },
+  ];
+
+  // Additional fees that may apply
+  const additionalFees = [
+    { label: dict.pricing.fees.travelLabel, description: dict.pricing.fees.travelDescription },
+    { label: dict.pricing.fees.afterHoursLabel, description: dict.pricing.fees.afterHoursDescription },
+    { label: dict.pricing.fees.sameDayLabel, description: dict.pricing.fees.sameDayDescription },
+    { label: dict.pricing.fees.exceptionalLabel, description: dict.pricing.fees.exceptionalDescription },
+  ];
 
   return (
     <section id="pricing" className="py-16 md:py-24 bg-cream">
@@ -36,10 +60,10 @@ export function Pricing() {
         {/* Section header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Transparent Pricing
+            {dict.pricing.title}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            My notary services strictly adhere to the pricing guidelines established by the state of California and the National Notary Association.
+            {dict.pricing.subtitle}
           </p>
         </div>
 
@@ -48,13 +72,13 @@ export function Pricing() {
           <Card className="border-gold ring-2 ring-gold/20">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-xl">Notary Services</CardTitle>
+                <CardTitle className="text-xl">{dict.pricing.notaryServices}</CardTitle>
                 <Badge className="bg-gold text-navy hover:bg-gold">
-                  CA State Pricing
+                  {dict.pricing.stateGuidelines}
                 </Badge>
               </div>
               <CardDescription>
-                Standard notarization fees per California guidelines
+                {dict.pricing.standardDescription}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -77,13 +101,13 @@ export function Pricing() {
               <div className="mt-4 p-4 rounded-lg bg-navy/5 border border-navy/10">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="font-medium">Apostille Services</span>
-                    <p className="text-sm text-muted-foreground">International document authentication</p>
+                    <span className="font-medium">{dict.pricing.fees.apostille}</span>
+                    <p className="text-sm text-muted-foreground">{dict.pricing.fees.apostilleDescription}</p>
                   </div>
                   <Button asChild variant="outline" size="sm" className="border-navy text-navy hover:bg-navy hover:text-white">
                     <a href={BUSINESS.phoneLink}>
                       <Phone className="h-4 w-4 mr-2" />
-                      Call for Info
+                      {dict.pricing.fees.callForInfo}
                     </a>
                   </Button>
                 </div>
@@ -94,9 +118,9 @@ export function Pricing() {
           {/* Additional Fees Card */}
           <Card className="border-border/50">
             <CardHeader>
-              <CardTitle className="text-xl">Additional Charges</CardTitle>
+              <CardTitle className="text-xl">{dict.pricing.additionalCharges}</CardTitle>
               <CardDescription>
-                When applicable, additional fees may include:
+                {dict.pricing.additionalDescription}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -112,10 +136,10 @@ export function Pricing() {
                   </div>
                 </div>
               ))}
-              
+
               <div className="pt-4 border-t">
                 <p className="text-sm text-muted-foreground">
-                  I prioritize transparency and fairness in my pricing, ensuring a smooth and reliable notary experience for every client.
+                  {dict.pricing.transparencyNote}
                 </p>
               </div>
 
@@ -124,16 +148,29 @@ export function Pricing() {
                 asChild
                 className="w-full bg-navy hover:bg-navy-light"
               >
-                <a href="/booking">Book Your Appointment</a>
+                <a href={`${localePrefix}/booking`}>{dict.pricing.bookAppointment}</a>
               </Button>
             </CardContent>
           </Card>
         </div>
 
+        {/* Travel Fee Calculator */}
+        <div className="mt-12">
+          <div className="text-center mb-6">
+            <h3 className="text-2xl font-bold tracking-tight text-navy mb-2">
+              {dict.pricing.calculateTravel}
+            </h3>
+            <p className="text-muted-foreground">
+              {dict.pricing.calculateSubtitle}
+            </p>
+          </div>
+          <TravelPriceCalculator />
+        </div>
+
         {/* Note */}
         <p className="mt-8 text-center text-sm text-muted-foreground max-w-2xl mx-auto">
           <Info className="inline h-4 w-4 mr-1" />
-          All fees are quoted upfront before your appointment. I accept cash, cards, Venmo, Zelle, and PayPal.
+          {dict.pricing.paymentNote}
         </p>
       </div>
     </section>

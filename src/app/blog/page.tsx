@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCard } from "@/components/blog";
-import { getAllBlogPosts } from "@/lib/blog-content";
+import { getAllBlogPosts } from "@/lib/get-content";
 
 const categories = [
   { value: "all", label: "All Posts" },

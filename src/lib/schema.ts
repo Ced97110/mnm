@@ -1,7 +1,8 @@
 import { BUSINESS, SERVICE_AREAS, SERVICES } from "./constants";
+import type { Locale } from "./i18n/config";
 
 // Generate LocalBusiness JSON-LD schema
-export function generateLocalBusinessSchema(city?: string) {
+export function generateLocalBusinessSchema(city?: string, locale: Locale = 'en') {
   const areaServed = SERVICE_AREAS.map((area) => ({
     "@type": "City",
     name: area.name,
@@ -18,6 +19,7 @@ export function generateLocalBusinessSchema(city?: string) {
     name: BUSINESS.name,
     description: "Owner-operated mobile notary serving the San Francisco Bay Area. You work directly with the notary for every appointment.",
     image: "https://mobile-notary-management.com/favicon.png",
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     telephone: BUSINESS.phone,
     email: BUSINESS.email,
     url: "https://mobile-notary-management.com",
@@ -71,12 +73,13 @@ export function generateLocalBusinessSchema(city?: string) {
 }
 
 // Generate Service schema
-export function generateServiceSchema(service: (typeof SERVICES)[number]) {
+export function generateServiceSchema(service: (typeof SERVICES)[number], locale: Locale = 'en') {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.name,
     description: service.description,
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     provider: {
       "@type": "LocalBusiness",
       name: BUSINESS.name,
@@ -90,11 +93,13 @@ export function generateServiceSchema(service: (typeof SERVICES)[number]) {
 
 // Generate FAQ schema
 export function generateFAQSchema(
-  faqs: readonly { readonly question: string; readonly answer: string }[]
+  faqs: readonly { readonly question: string; readonly answer: string }[],
+  locale: Locale = 'en'
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
@@ -108,11 +113,13 @@ export function generateFAQSchema(
 
 // Generate BreadcrumbList schema
 export function generateBreadcrumbSchema(
-  items: Array<{ name: string; url: string }>
+  items: Array<{ name: string; url: string }>,
+  locale: Locale = 'en'
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -129,12 +136,13 @@ export function generateDetailedServiceSchema(service: {
   slug: string;
   pricing?: { base: string };
   faqs?: Array<{ question: string; answer: string }>;
-}) {
+}, locale: Locale = 'en') {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.name,
     description: service.description,
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     url: `https://mobile-notary-management.com/services/${service.slug}`,
     provider: {
       "@type": "LocalBusiness",
@@ -164,11 +172,12 @@ export function generateArticleSchema(article: {
   slug: string;
   datePublished: string;
   dateModified: string;
-}) {
+}, locale: Locale = 'en') {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
+    inLanguage: locale === 'es' ? 'es-US' : 'en-US',
     description: article.metaDescription,
     url: `https://mobile-notary-management.com/blog/${article.slug}`,
     datePublished: article.datePublished,

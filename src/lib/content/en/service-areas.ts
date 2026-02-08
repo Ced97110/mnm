@@ -1,8 +1,8 @@
 // Unique, helpful content for each service area page (not boilerplate)
 // Each city has specific local information to satisfy SEO requirements
 
-import { CITIES, type City, calculateTravelFee } from "./cities";
-import { BUSINESS } from "./constants";
+import { CITIES, type City, calculateTravelFee } from "../../cities";
+import { BUSINESS } from "../../constants";
 
 type ServiceAreaSlug = City["slug"];
 
@@ -668,6 +668,10 @@ function generateBasicFallbackContent(city: City): ServiceAreaContent {
     ],
   };
 }
+
+// Export content and type
+export const SERVICE_AREA_CONTENT = serviceAreaContent;
+export type { ServiceAreaContent };
 
 export function getServiceAreaContent(slug: string): ServiceAreaContent | null {
   // Check for custom content first

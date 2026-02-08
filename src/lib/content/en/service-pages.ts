@@ -1,6 +1,6 @@
 // Detailed content for dedicated service pages (/services/[slug])
 
-import { SERVICES } from "./constants";
+import { SERVICES } from "../../constants";
 
 export interface ServicePageContent {
   slug: string;
@@ -438,6 +438,9 @@ const servicePages: Record<string, ServicePageContent> = {
     ],
   },
 };
+
+// Export the content constant
+export const SERVICE_PAGE_CONTENT = servicePages;
 
 export function getServicePageContent(
   slug: string

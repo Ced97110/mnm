@@ -1,0 +1,205 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "serviceAreas": "Service Areas",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "badge": "Same-Day Appointments Available",
+    "title": "Professional Mobile Notary",
+    "titleLocation": "in the Bay Area",
+    "subtitle": "I'm your mobile notary—fast, reliable, and you'll work directly with me. Available 7 days a week, early morning to late evening.",
+    "cta": {
+      "primary": "Call for Same-Day Service",
+      "secondary": "Book Appointment"
+    },
+    "trust": {
+      "licensed": "Licensed & Insured"
+    }
+  },
+  "services": {
+    "title": "Notary Services That Come to You",
+    "subtitle": "Whether it's a real estate closing, power of attorney, or documents for international use—I handle it all personally, by appointment.",
+    "cta": "View All Services"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Getting your documents notarized has never been easier. Three simple steps to get it done.",
+    "steps": {
+      "step1": {
+        "title": "Call or Book Online",
+        "description": "Contact me by phone, text, or use the online booking form. Tell me what documents you need notarized and your preferred location."
+      },
+      "step2": {
+        "title": "I Come to You",
+        "description": "I'll confirm my availability and meet you at your chosen location—home, office, hospital, or anywhere in the Bay Area. Same-day service available."
+      },
+      "step3": {
+        "title": "Sign & Done",
+        "description": "Present your ID, sign your documents in front of me, and you're finished. I accept cash, cards, Venmo, and Zelle."
+      }
+    }
+  },
+  "serviceAreas": {
+    "title": "Serving the Entire Bay Area",
+    "subtitle": "Mobile notary services throughout San Francisco, Oakland, San Jose, and all surrounding cities.",
+    "viewAll": "View All Cities"
+  },
+  "testimonials": {
+    "badge": "4.9 Star Rating",
+    "title": "What Clients Say",
+    "subtitle": "Clients choose me for clear communication, punctuality, and a smooth signing experience.",
+    "viewReviews": "View Reviews on Yelp",
+    "stats": {
+      "documents": "Documents Notarized",
+      "experience": "Years Experience",
+      "rating": "Average Rating",
+      "reviews": "Google Reviews"
+    }
+  },
+  "pricing": {
+    "title": "Transparent Pricing",
+    "subtitle": "My notary services strictly adhere to the pricing guidelines established by the state of California and the National Notary Association.",
+    "notaryServices": "Notary Services",
+    "stateGuidelines": "CA State Pricing",
+    "standardDescription": "Standard notarization fees per California guidelines",
+    "additionalCharges": "Additional Charges",
+    "additionalDescription": "When applicable, additional fees may include:",
+    "fees": {
+      "realEstate": "Real Estate Documents",
+      "wills": "Wills and Testaments",
+      "trusts": "Trust Documents",
+      "loanSignings": "Loan Signings",
+      "powerOfAttorney": "Power of Attorney",
+      "affidavits": "Affidavits",
+      "divorce": "Divorce Documents",
+      "acknowledgments": "Acknowledgments",
+      "apostille": "Apostille Services",
+      "apostilleDescription": "International document authentication",
+      "perSignature": "per signature",
+      "callForInfo": "Call for Info",
+      "travelLabel": "Travel expenses",
+      "travelDescription": "Based on distance to your location",
+      "afterHoursLabel": "After-hours service",
+      "afterHoursDescription": "Appointments outside regular business hours",
+      "sameDayLabel": "Same-day priority",
+      "sameDayDescription": "Expedited scheduling when available",
+      "exceptionalLabel": "Exceptional circumstances",
+      "exceptionalDescription": "Special arrangements as needed"
+    },
+    "transparencyNote": "I prioritize transparency and fairness in my pricing, ensuring a smooth and reliable notary experience for every client.",
+    "bookAppointment": "Book Your Appointment",
+    "calculateTravel": "Calculate Your Travel Fee",
+    "calculateSubtitle": "Get an instant estimate based on your location",
+    "paymentNote": "All fees are quoted upfront before your appointment. I accept cash, cards, Venmo, Zelle, and PayPal."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Common questions about mobile notary services"
+  },
+  "finalCta": {
+    "title": "Ready to Get Your Documents Notarized?",
+    "subtitle": "Skip the hassle of finding a notary office. I'll come to you—at your home, office, or anywhere in the Bay Area. I'll confirm my availability and meet you at your location.",
+    "callButton": "Call",
+    "textButton": "Text Me",
+    "contactNote": "You'll reach me directly. Text is usually the fastest way to reach me.",
+    "noObligation": "No obligation quote",
+    "fastResponse": "Usually respond in 15 min",
+    "formTitle": "Request an Appointment",
+    "formSubtitle": "Fill out this quick form and I'll get back to you within 15 minutes during business hours.",
+    "formName": "Your Name",
+    "formPhone": "Phone Number",
+    "formService": "Type of Service",
+    "formServicePlaceholder": "Select a service...",
+    "formServices": {
+      "mobileNotary": "Mobile Notary",
+      "loanSigning": "Loan Signing",
+      "apostille": "Apostille Service",
+      "hospital": "Hospital/Care Facility",
+      "other": "Other"
+    },
+    "formLocation": "Your Location (City)",
+    "formSubmit": "Request Callback",
+    "formDisclaimer": "By submitting, you agree to receive a call or text at the number provided.",
+    "successTitle": "Request Received!",
+    "successMessage": "I'll call you back within 15 minutes to confirm your appointment."
+  },
+  "footer": {
+    "description": "Owner-operated mobile notary serving the San Francisco Bay Area. You work directly with me for every appointment. Licensed and insured.",
+    "contactMe": "Contact Me",
+    "services": "Services",
+    "resources": "Resources",
+    "allServices": "All Services",
+    "bookAppointment": "Book Appointment",
+    "privacyPolicy": "Privacy Policy",
+    "servingArea": "Serving the entire Bay Area",
+    "hours": "Hours",
+    "hoursWeekdays": "Mon-Fri",
+    "hoursWeekends": "Sat-Sun",
+    "followUs": "Follow Us",
+    "copyright": "All rights reserved",
+    "certified": "Licensed & Insured • NNA Certified Signing Agent"
+  },
+  "mobileCta": {
+    "call": "Call",
+    "text": "Text",
+    "book": "Book Appointment"
+  },
+  "travelCalculator": {
+    "title": "Calculate Your Travel Fee",
+    "subtitle": "Get an instant estimate based on your current location",
+    "button": "Get My Travel Fee Estimate",
+    "buttonLoading": "Getting your location...",
+    "tryAgain": "Try Again",
+    "errors": {
+      "notSupported": "Geolocation is not supported by your browser",
+      "failed": "Failed to calculate travel fee. Please try again.",
+      "permissionDenied": "Location access denied. Please enable location permissions.",
+      "unavailable": "Location information unavailable.",
+      "timeout": "Location request timed out.",
+      "unknown": "Unable to get your location."
+    },
+    "location": {
+      "milesAway": "miles away",
+      "minutesDrive": "minutes drive",
+      "realTime": "Real-time",
+      "estimated": "Estimated"
+    },
+    "feeEstimate": "Travel Fee Estimate",
+    "perSignature": "Plus $15 per signature notarized",
+    "breakdown": {
+      "title": "Fee Breakdown",
+      "baseRate": "Base rate",
+      "perMile": "per mile",
+      "calculation": "Calculation",
+      "minimum": "Minimum fee",
+      "maximum": "Maximum fee",
+      "range": "Estimate range"
+    },
+    "included": {
+      "title": "What's included:",
+      "comeToYou": "I come to your location",
+      "noParking": "No need to find parking or travel",
+      "sameDay": "Same-day appointments available",
+      "evenings": "Evening & weekend service available"
+    },
+    "callToBook": "Call to Book",
+    "calculateAgain": "Calculate Again",
+    "privacyNote": "Your location is only used to calculate the travel fee and is not stored."
+  },
+  "common": {
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us",
+    "callNow": "Call Now",
+    "bookOnline": "Book Online",
+    "viewServices": "View Services",
+    "viewServiceAreas": "View Service Areas"
+  }
+}
