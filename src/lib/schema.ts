@@ -121,3 +121,75 @@ export function generateBreadcrumbSchema(
     })),
   };
 }
+
+// Generate detailed Service schema for dedicated service pages
+export function generateDetailedServiceSchema(service: {
+  name: string;
+  description: string;
+  slug: string;
+  pricing?: { base: string };
+  faqs?: Array<{ question: string; answer: string }>;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.description,
+    url: `https://mobile-notary-management.com/services/${service.slug}`,
+    provider: {
+      "@type": "LocalBusiness",
+      "@id": "https://mobile-notary-management.com/#business",
+      name: BUSINESS.name,
+      telephone: BUSINESS.phone,
+    },
+    areaServed: {
+      "@type": "State",
+      name: "California",
+    },
+    serviceType: "Notary Public",
+    ...(service.pricing && {
+      offers: {
+        "@type": "Offer",
+        price: service.pricing.base,
+        priceCurrency: "USD",
+      },
+    }),
+  };
+}
+
+// Generate Article schema for blog posts
+export function generateArticleSchema(article: {
+  title: string;
+  metaDescription: string;
+  slug: string;
+  datePublished: string;
+  dateModified: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.metaDescription,
+    url: `https://mobile-notary-management.com/blog/${article.slug}`,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    author: {
+      "@type": "Person",
+      name: "Elias G.",
+      jobTitle: "Certified Notary Public & NNA Signing Agent",
+    },
+    publisher: {
+      "@type": "LocalBusiness",
+      "@id": "https://mobile-notary-management.com/#business",
+      name: BUSINESS.name,
+      logo: {
+        "@type": "ImageObject",
+        url: "https://mobile-notary-management.com/favicon.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://mobile-notary-management.com/blog/${article.slug}`,
+    },
+  };
+}

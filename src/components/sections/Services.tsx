@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Car, Home, Globe, Heart, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,16 +57,18 @@ export function Services() {
                     <span className="text-sm font-semibold text-gold">
                       {service.price}
                     </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                      className="text-navy hover:text-gold"
-                    >
-                      <a href="/booking" className="gap-1">
-                        Book <ArrowRight className="h-3.5 w-3.5" />
-                      </a>
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="text-navy hover:text-gold"
+                      >
+                        <Link href={`/services/${service.slug}`} className="gap-1">
+                          Learn More <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

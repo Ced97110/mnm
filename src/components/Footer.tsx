@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import { BUSINESS } from "@/lib/constants";
+import { BUSINESS, SERVICES } from "@/lib/constants";
 
 export function Footer() {
   return (
     <footer className="bg-navy text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Business Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -93,21 +93,46 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Quick Links */}
+          {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gold">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-gold">Services</h3>
+            <ul className="space-y-2 text-sm">
+              {SERVICES.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="text-white/80 hover:text-white transition-colors"
+                  >
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/services"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  All Services
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gold">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="#services"
+                  href="/blog"
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  Services
+                  Blog
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#pricing"
+                  href="/#pricing"
                   className="text-white/80 hover:text-white transition-colors"
                 >
                   Pricing
@@ -115,7 +140,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#faq"
+                  href="/#faq"
                   className="text-white/80 hover:text-white transition-colors"
                 >
                   FAQ

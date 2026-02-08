@@ -46,6 +46,7 @@ export const SERVICE_AREAS = [
 export const SERVICES = [
   {
     id: "mobile-notary",
+    slug: "mobile-notary",
     name: "Mobile Notary",
     shortDesc: "I come to you anywhere in the Bay Area",
     description: "Convenient notarization at your home, office, hospital, or any location. I'm available 7 days a week with same-day appointments.",
@@ -54,6 +55,7 @@ export const SERVICES = [
   },
   {
     id: "loan-signing",
+    slug: "loan-signing",
     name: "Loan Signing Agent",
     shortDesc: "Certified for all mortgage documents",
     description: "NNA-certified signing agent for refinances, purchases, HELOCs, and reverse mortgages. I provide fast turnaround for title companies.",
@@ -62,6 +64,7 @@ export const SERVICES = [
   },
   {
     id: "apostille",
+    slug: "apostille",
     name: "Apostille Services",
     shortDesc: "Authentication for international documents",
     description: "I handle the California Secretary of State apostille process for documents used abroad. Birth certificates, diplomas, and legal documents.",
@@ -70,6 +73,7 @@ export const SERVICES = [
   },
   {
     id: "hospital",
+    slug: "hospital-notary",
     name: "Hospital & Care Facility",
     shortDesc: "Sensitive situations handled with care",
     description: "Discreet and compassionate notarization at hospitals, nursing homes, and assisted living facilities. I offer priority scheduling when needed.",

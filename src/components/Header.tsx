@@ -10,9 +10,9 @@ import { BUSINESS } from "@/lib/constants";
 
 const navItems = [
   { label: "About", href: "/about" },
-  { label: "Services", href: "/#services" },
+  { label: "Services", href: "/services" },
+  { label: "Blog", href: "/blog" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Reviews", href: "/#testimonials" },
   { label: "FAQ", href: "/#faq" },
 ];
 

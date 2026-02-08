@@ -19,7 +19,8 @@ import {
   getAllServiceAreaSlugs,
 } from "@/lib/service-area-content";
 import { generateLocalBusinessSchema, generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
-import { BUSINESS, SERVICE_AREAS } from "@/lib/constants";
+import { BUSINESS, SERVICE_AREAS, SERVICES } from "@/lib/constants";
+import { CITIES } from "@/lib/cities";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -77,9 +78,9 @@ export default async function ServiceAreaPage({ params }: Props) {
   const faqSchema = generateFAQSchema(content.localFAQs);
 
   // Get nearby cities for internal linking
-  const nearbyCities = SERVICE_AREAS.filter(
+  const nearbyCities = CITIES.filter(
     (city) => city.region === content.region && city.slug !== slug
-  ).slice(0, 4);
+  ).slice(0, 6);
 
   return (
     <>
@@ -203,6 +204,38 @@ export default async function ServiceAreaPage({ params }: Props) {
               </AccordionItem>
             ))}
           </Accordion>
+        </div>
+      </section>
+
+      {/* Services Available in City */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <h2 className="text-2xl font-bold text-center mb-4">
+            Services Available in {content.name}
+          </h2>
+          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
+            I offer the full range of notary services in {content.name}. Tap a
+            service to learn more about what&apos;s included.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {SERVICES.map((service) => (
+              <Link
+                key={service.id}
+                href={`/services/${service.slug}`}
+                className="group rounded-xl border border-border/50 bg-card p-5 transition-all hover:shadow-warm hover:border-gold/30"
+              >
+                <h3 className="font-semibold text-navy group-hover:text-gold transition-colors">
+                  {service.name}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {service.shortDesc}
+                </p>
+                <span className="mt-3 inline-flex items-center text-sm font-medium text-gold gap-1">
+                  Learn more <ChevronRight className="h-3.5 w-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
