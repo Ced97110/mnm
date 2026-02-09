@@ -118,7 +118,7 @@ export function Testimonials() {
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
             { value: "15,000+", label: dict.testimonials.stats.documents },
-            { value: "5+", label: dict.testimonials.stats.experience },
+            { value: "6+", label: dict.testimonials.stats.experience },
             { value: "4.9★", label: dict.testimonials.stats.rating },
             { value: "127", label: dict.testimonials.stats.reviews },
           ].map((stat) => (

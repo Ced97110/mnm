@@ -117,7 +117,7 @@ export const FAQS = [
   },
   {
     question: "¿Qué formas de pago acepta?",
-    answer: "Acepto efectivo, tarjetas de crédito/débito (Visa, Mastercard, Amex), Venmo, Zelle y PayPal. El pago se debe realizar al momento del servicio.",
+    answer: "Acepto efectivo, Venmo y Zelle. El pago se debe realizar al momento del servicio.",
   },
   {
     question: "¿Qué tan lejos viaja?",

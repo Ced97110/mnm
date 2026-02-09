@@ -41,7 +41,7 @@
       },
       "step3": {
         "title": "Sign & Done",
-        "description": "Present your ID, sign your documents in front of me, and you're finished. I accept cash, cards, Venmo, and Zelle."
+        "description": "Present your ID, sign your documents in front of me, and you're finished. I accept cash, Venmo, and Zelle."
       }
     }
   },
@@ -96,7 +96,7 @@
     "bookAppointment": "Book Your Appointment",
     "calculateTravel": "Calculate Your Travel Fee",
     "calculateSubtitle": "Get an instant estimate based on your location",
-    "paymentNote": "All fees are quoted upfront before your appointment. I accept cash, cards, Venmo, Zelle, and PayPal."
+    "paymentNote": "All fees are quoted upfront before your appointment. I accept cash, Venmo, and Zelle."
   },
   "faq": {
     "title": "Frequently Asked Questions",

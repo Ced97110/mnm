@@ -41,7 +41,7 @@
       },
       "step3": {
         "title": "Firmar y Listo",
-        "description": "Presente su identificación, firme sus documentos frente a mí, y habrá terminado. Acepto efectivo, tarjetas, Venmo y Zelle."
+        "description": "Presente su identificación, firme sus documentos frente a mí, y habrá terminado. Acepto efectivo, Venmo y Zelle."
       }
     }
   },
@@ -96,7 +96,7 @@
     "bookAppointment": "Reserve Su Cita",
     "calculateTravel": "Calcule Su Tarifa de Viaje",
     "calculateSubtitle": "Obtenga un estimado instantáneo basado en su ubicación",
-    "paymentNote": "Todas las tarifas se cotizan por adelantado antes de su cita. Acepto efectivo, tarjetas, Venmo, Zelle y PayPal."
+    "paymentNote": "Todas las tarifas se cotizan por adelantado antes de su cita. Acepto efectivo, Venmo y Zelle."
   },
   "faq": {
     "title": "Preguntas Frecuentes",

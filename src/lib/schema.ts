@@ -50,7 +50,7 @@ export function generateLocalBusinessSchema(city?: string, locale: Locale = 'en'
       },
     ],
     priceRange: "$$",
-    paymentAccepted: "Cash, Credit Card, Venmo, Zelle, PayPal",
+    paymentAccepted: "Cash, Venmo, Zelle",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Notary Services",

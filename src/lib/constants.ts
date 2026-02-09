@@ -116,7 +116,7 @@ export const FAQS = [
   },
   {
     question: "What forms of payment do you accept?",
-    answer: "I accept cash, credit/debit cards (Visa, Mastercard, Amex), Venmo, Zelle, and PayPal. Payment is due at the time of service.",
+    answer: "I accept cash, Venmo, and Zelle. Payment is due at the time of service.",
   },
   {
     question: "How far will you travel?",
