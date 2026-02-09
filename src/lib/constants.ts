@@ -24,7 +24,7 @@ export const BUSINESS = {
     signingAgent: "https://www.signingagent.com/profile/160835769",
   },
   yearsInBusiness: 6,
-  notarizationsCompleted: "4,500+",
+  notarizationsCompleted: "5,000+",
 } as const;
 
 // Service areas with SEO-optimized slugs

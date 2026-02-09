@@ -89,7 +89,27 @@ export async function GET(request: NextRequest) {
     targetLat = parseFloat(lat!);
     targetLng = parseFloat(lng!);
 
-    // Find nearest city
+    // Try to get actual city name using reverse geocoding
+    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
+    let actualCityName: string | null = null;
+
+    if (mapboxToken) {
+      try {
+        const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${targetLng},${targetLat}.json?types=place&access_token=${mapboxToken}`;
+        const geocodeResponse = await fetch(geocodeUrl);
+
+        if (geocodeResponse.ok) {
+          const geocodeData = await geocodeResponse.json();
+          if (geocodeData.features && geocodeData.features.length > 0) {
+            actualCityName = geocodeData.features[0].text;
+          }
+        }
+      } catch (error) {
+        console.log("Reverse geocoding failed, using fallback");
+      }
+    }
+
+    // Find nearest city from our list
     let nearestCity = CITIES[0];
     let nearestDistance = Infinity;
 
@@ -106,8 +126,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Use actual city name if available, otherwise use nearest city
     cityInfo = {
-      name: nearestCity.name,
+      name: actualCityName || nearestCity.name,
       slug: nearestCity.slug,
       region: nearestCity.region,
     };

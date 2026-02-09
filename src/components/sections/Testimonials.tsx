@@ -117,7 +117,7 @@ export function Testimonials() {
         {/* Stats row */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
           {[
-            { value: "4,500+", label: dict.testimonials.stats.documents },
+            { value: "5,000+", label: dict.testimonials.stats.documents },
             { value: "6+", label: dict.testimonials.stats.experience },
             { value: "33+", label: dict.testimonials.stats.cities },
           ].map((stat) => (

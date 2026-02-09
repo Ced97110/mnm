@@ -173,11 +173,14 @@ export function TravelPriceCalculator() {
             {/* Location Info */}
             <div className="p-4 bg-cream rounded-lg border border-gold/20">
               <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-navy">
-                    {result.city?.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-gold" />
+                    <h3 className="font-semibold text-navy">
+                      {result.city?.name}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
                     {result.city?.region} • {result.distance?.miles} {dict.travelCalculator.location.milesAway}
                   </p>
                   {result.distance?.minutes && (
@@ -185,13 +188,12 @@ export function TravelPriceCalculator() {
                       ~{result.distance.minutes} {dict.travelCalculator.location.minutesDrive}
                     </p>
                   )}
+                  <p className="text-xs text-blue-600 mt-2">
+                    {result.distance?.source === "api"
+                      ? `✓ ${dict.travelCalculator.location.realTime} ${locale === 'es' ? 'ubicación detectada' : 'location detected'}`
+                      : `≈ ${dict.travelCalculator.location.estimated} ${locale === 'es' ? 'ubicación' : 'location'}`}
+                  </p>
                 </div>
-                <Badge variant="secondary" className="bg-gold/10 text-navy border-gold/20">
-                  <MapPin className="h-3 w-3 mr-1" />
-                  {result.distance?.source === "api"
-                    ? dict.travelCalculator.location.realTime
-                    : dict.travelCalculator.location.estimated}
-                </Badge>
               </div>
             </div>
 
