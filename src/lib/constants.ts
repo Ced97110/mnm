@@ -23,8 +23,8 @@ export const BUSINESS = {
     googleReview: "https://g.page/r/CaSj3qGd7KNNEAI/review", // Direct Google review link
     signingAgent: "https://www.signingagent.com/profile/160835769",
   },
-  yearsInBusiness: 5,
-  notarizationsCompleted: "15,000+",
+  yearsInBusiness: 6,
+  notarizationsCompleted: "4,500+",
 } as const;
 
 // Service areas with SEO-optimized slugs

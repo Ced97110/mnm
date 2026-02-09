@@ -59,6 +59,7 @@
     "stats": {
       "documents": "Documentos Notarizados",
       "experience": "Años de Experiencia",
+      "cities": "Ciudades Servidas",
       "rating": "Calificación Promedio",
       "reviews": "Reseñas de Google"
     }

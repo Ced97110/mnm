@@ -139,8 +139,8 @@ const blogPosts: BlogPost[] = [
     relatedServiceSlugs: ["mobile-notary", "loan-signing"],
     relatedCitySlugs: ["san-francisco", "oakland", "san-jose"],
     relatedPostSlugs: [
-      "mobile-notary-vs-ups-store-bank",
       "what-to-expect-loan-signing-appointment",
+      "notary-public-vs-signing-agent-difference",
     ],
     sources: [
       {
@@ -773,117 +773,7 @@ const blogPosts: BlogPost[] = [
   },
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // 7. Mobile Notary vs. UPS Store or Bank: Which Is Best?
-  // ─────────────────────────────────────────────────────────────────────────────
-  {
-    slug: "mobile-notary-vs-ups-store-bank",
-    title: "Mobile Notary vs. UPS Store or Bank: Which Is Best?",
-    metaTitle:
-      "Mobile Notary vs. UPS Store or Bank: Cost, Convenience & Expertise Compared",
-    metaDescription:
-      "Comparing mobile notary services with UPS Store and bank notary options. Learn about cost, availability, expertise, and which option works best for your situation.",
-    excerpt:
-      "You have several options when you need a document notarized. Here is an honest comparison of mobile notary services, UPS Store notary desks, and bank notaries to help you decide.",
-    datePublished: "2025-02-25",
-    dateModified: "2025-03-15",
-    category: "comparisons",
-    readTime: 5,
-    tags: [
-      "mobile notary",
-      "UPS Store notary",
-      "bank notary",
-      "notary comparison",
-      "notary near me",
-    ],
-    sections: [
-      {
-        heading: "The Three Main Options for Notarization",
-        content:
-          "When you need a document notarized, you generally have three choices: visit a UPS Store or similar shipping/mailing center, go to your bank, or have a mobile notary come to you. Each option has legitimate advantages and drawbacks, and the best choice depends on your specific circumstances. As a mobile notary, I could simply tell you that mobile service is always the best option, but that would not be honest. There are situations where a UPS Store or bank notary makes perfect sense, and there are situations where a mobile notary is clearly the better path. Here is a straightforward comparison to help you decide.",
-      },
-      {
-        heading: "Convenience and Availability",
-        content:
-          "This is where the three options differ most dramatically. A mobile notary comes to you — wherever you are, whenever you need them. I meet clients at their homes, offices, coffee shops, hospitals, and nursing homes throughout the Bay Area, and I offer evening and weekend appointments. A UPS Store typically has a notary available during business hours, but availability varies by location and you should call ahead because not every employee at the store is a notary. I have heard from clients who drove to a UPS Store only to find the notary was on break, out sick, or not working that day. Banks are even more restrictive — most branches only offer notary services to existing account holders, and availability depends on which employees are commissioned notaries. Some branches have no notary at all. Both UPS Stores and banks operate on standard business hours, which means if you need notarization at 7 PM or on a Sunday, you are out of luck.",
-        callout: {
-          type: "tip",
-          content:
-            "Always call ahead before visiting a UPS Store or bank for notarization. Confirm that a notary is on duty, and ask whether they can notarize your specific type of document. Some locations decline certain documents like deeds or powers of attorney.",
-        },
-      },
-      {
-        heading: "Expertise and Document Handling",
-        content:
-          "A general notary at a UPS Store or bank is perfectly capable of notarizing standard documents like a straightforward affidavit or a simple consent form. However, when it comes to more complex documents — real estate deeds, loan packages, powers of attorney, healthcare directives — the level of expertise matters. A mobile notary who specializes in these documents handles them daily and understands the specific requirements, common pitfalls, and proper procedures. For example, I know that California requires specific statutory language in a durable power of attorney and that a grant deed must include the assessor's parcel number. A general notary at a retail location may not be familiar with these nuances. For loan signing packages in particular, you need a certified signing agent, which is a level of specialization that UPS Stores and banks simply do not offer.",
-      },
-      {
-        heading: "Cost Comparison",
-        content:
-          "Cost is the area where UPS Stores and banks have a clear advantage for simple notarizations. At a UPS Store, you will pay $15 per signature (the California state maximum), and there are no additional fees. Some banks offer notarization free of charge to account holders, which is genuinely hard to beat. A mobile notary charges the same $15 per signature but adds a travel fee that typically ranges from $25 to $75 in the Bay Area, bringing the total to $50 to $90 for a single-signature document. For a single straightforward document that you need notarized during business hours, the math clearly favors the UPS Store or bank. However, when you factor in your own time — driving to the location, finding parking in San Francisco or Oakland, waiting your turn — the cost calculation changes. If your time is worth $40 to $60 per hour and the round trip takes an hour, the mobile notary suddenly looks like a bargain.",
-        list: [
-          "UPS Store: $15 per signature, no travel fee, business hours only",
-          "Bank: Often free for account holders, limited availability, business hours only",
-          "Mobile notary: $15 per signature + $25-$75 travel fee, flexible hours and locations",
-        ],
-      },
-      {
-        heading: "When a UPS Store or Bank Makes Sense",
-        content:
-          "If you have a simple, single-signature document that needs notarizing and you can easily visit a location during business hours, a UPS Store or bank is a perfectly good option. This works well when you are already running errands nearby, the document is straightforward (like a basic affidavit or a permission letter for a child's travel), and you are not in a rush to get it done at a specific time. Bank notarization is an especially good deal if you are already at the branch for other banking business. I would never tell someone to pay a travel fee if they can just as easily walk into a UPS Store around the corner. The key is to call ahead and confirm that a notary is available — showing up without calling is the number one complaint I hear from people who end up contacting me after a failed attempt at a retail location.",
-      },
-      {
-        heading: "When a Mobile Notary Is the Better Choice",
-        content:
-          "A mobile notary becomes the clear winner in several common scenarios. If you are homebound, elderly, hospitalized, or caring for someone who cannot travel, mobile service is not just convenient — it is necessary. If you need notarization outside of standard business hours, a mobile notary is likely your only option. If you have a complex document or a full loan signing package, a specialized mobile notary or signing agent provides expertise that retail locations cannot match. If you have multiple signers who are in different locations or cannot easily travel to the same place, a mobile notary can coordinate appointments efficiently. And if you simply value your time and prefer to have someone come to you rather than disrupting your workday, that is a perfectly valid reason to choose mobile service.",
-        list: [
-          "Signers who cannot travel — hospitalized, elderly, disabled, or homebound individuals",
-          "After-hours or weekend needs — evenings, weekends, and holidays",
-          "Complex documents — deeds, powers of attorney, loan packages",
-          "Time-sensitive situations — same-day or next-day needs",
-          "Multiple signers — coordinating multiple people in one appointment",
-          "Privacy preferences — sensitive documents you prefer to sign at home",
-        ],
-      },
-      {
-        heading: "The Bottom Line",
-        content:
-          "There is no universally best option — it depends on your document, schedule, budget, and circumstances. For simple documents during business hours when a location is convenient, a UPS Store or bank is cost-effective and perfectly adequate. For everything else — complex documents, off-hours appointments, mobility limitations, loan signings, or situations where you value convenience and expertise — a mobile notary is the way to go. I have built my practice around being the option people turn to when the UPS Store is closed, the bank does not have a notary on duty, or the document is too complex for a general retail notary. If you are in the Bay Area and unsure which option is right for your situation, feel free to call me and I will give you an honest recommendation, even if it means pointing you to a free option at your bank.",
-      },
-    ],
-    relatedServiceSlugs: ["mobile-notary", "loan-signing"],
-    relatedCitySlugs: [
-      "san-francisco",
-      "oakland",
-      "berkeley",
-      "san-jose",
-      "fremont",
-    ],
-    relatedPostSlugs: [
-      "how-much-does-mobile-notary-cost-california",
-      "notary-public-vs-signing-agent-difference",
-    ],
-    sources: [
-      {
-        title: "California Government Code Section 8211 - Notary Public Fees",
-        url: "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=8211",
-        organization: "California Legislative Information",
-      },
-      {
-        title: "2025 California Notary Public Handbook",
-        url: "https://notary.cdn.sos.ca.gov/forms/notary-handbook-current.pdf",
-        organization: "California Secretary of State",
-      },
-    ],
-    heroImage: {
-      src: "/images/blog/mobile-notary-home.jpg",
-      alt: "Car keys representing mobile notary travel and convenience services",
-      credit: "Unsplash",
-      creditUrl: "https://unsplash.com",
-    },
-  },
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  // 8. What to Expect at Your Loan Signing Appointment
+  // 7. What to Expect at Your Loan Signing Appointment
   // ─────────────────────────────────────────────────────────────────────────────
   {
     slug: "what-to-expect-loan-signing-appointment",

@@ -115,12 +115,11 @@ export function Testimonials() {
         </div>
 
         {/* Stats row */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
           {[
-            { value: "15,000+", label: dict.testimonials.stats.documents },
+            { value: "4,500+", label: dict.testimonials.stats.documents },
             { value: "6+", label: dict.testimonials.stats.experience },
-            { value: "4.9★", label: dict.testimonials.stats.rating },
-            { value: "127", label: dict.testimonials.stats.reviews },
+            { value: "33+", label: dict.testimonials.stats.cities },
           ].map((stat) => (
             <div key={stat.label}>
               <p className="text-3xl md:text-4xl font-bold text-gold">

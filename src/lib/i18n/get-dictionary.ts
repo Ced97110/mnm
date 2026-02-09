@@ -62,6 +62,7 @@ export interface Dictionary {
     stats: {
       documents: string;
       experience: string;
+      cities: string;
       rating: string;
       reviews: string;
     };
