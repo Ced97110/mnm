@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CalendlyWidget } from "@/components/calendly";
-import { TravelPriceCalculator } from "@/components/TravelPriceCalculator";
 import { BUSINESS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -28,11 +27,6 @@ export default function BookingPage() {
             Schedule your mobile notary appointment with our professional team today.
             Select a time that works best for you.
           </p>
-        </div>
-
-        {/* Travel Fee Calculator */}
-        <div className="mb-8 md:mb-12">
-          <TravelPriceCalculator />
         </div>
 
         {/* Calendly Widget */}

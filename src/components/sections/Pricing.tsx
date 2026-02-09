@@ -6,7 +6,6 @@ import { Check, Info, Phone } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TravelPriceCalculator } from "@/components/TravelPriceCalculator";
 import { useFadeIn } from "@/lib/animations";
 import { BUSINESS } from "@/lib/constants";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -152,19 +151,6 @@ export function Pricing() {
               </Button>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Travel Fee Calculator */}
-        <div className="mt-12">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold tracking-tight text-navy mb-2">
-              {dict.pricing.calculateTravel}
-            </h3>
-            <p className="text-muted-foreground">
-              {dict.pricing.calculateSubtitle}
-            </p>
-          </div>
-          <TravelPriceCalculator />
         </div>
 
         {/* Note */}

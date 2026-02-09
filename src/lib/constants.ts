@@ -13,8 +13,8 @@ export const BUSINESS = {
     country: "US",
   },
   hours: {
-    weekdays: "7:00 AM - 9:00 PM",
-    weekends: "8:00 AM - 8:00 PM",
+    weekdays: "4:00 AM - 9:00 PM",
+    weekends: "6:00 AM - 8:00 PM",
     display: "7 Days a Week • Early Morning to Late Evening",
   },
   social: {

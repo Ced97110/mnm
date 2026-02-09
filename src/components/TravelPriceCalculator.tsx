@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TRAVEL_FEE_CONFIG } from "@/lib/cities";
+import { saveLocation, getSavedLocation, hasConsentedToCookies } from "@/lib/cookies";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
 // Import dictionaries directly in client component
@@ -53,10 +54,33 @@ export function TravelPriceCalculator() {
     return null; // Loading state
   }
 
-  const getLocationAndCalculate = async () => {
+  const getLocationAndCalculate = async (useSaved = false) => {
     setLoading(true);
     setError(null);
     setResult(null);
+
+    // Try to use saved location if requested
+    if (useSaved && hasConsentedToCookies()) {
+      const saved = getSavedLocation();
+      if (saved) {
+        try {
+          const response = await fetch(
+            `/api/travel-fee?lat=${saved.lat}&lng=${saved.lng}`
+          );
+
+          if (response.ok) {
+            const data: TravelFeeData = await response.json();
+            if (data.success) {
+              setResult(data);
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (err) {
+          console.error('Failed to use saved location', err);
+        }
+      }
+    }
 
     // Check if geolocation is supported
     if (!navigator.geolocation) {
@@ -69,6 +93,11 @@ export function TravelPriceCalculator() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
+
+        // Save location if cookies are consented
+        if (hasConsentedToCookies()) {
+          saveLocation(latitude, longitude);
+        }
 
         try {
           // Call the travel fee API
@@ -133,7 +162,7 @@ export function TravelPriceCalculator() {
         {/* Calculate Button */}
         {!result && (
           <Button
-            onClick={getLocationAndCalculate}
+            onClick={() => getLocationAndCalculate()}
             disabled={loading}
             size="lg"
             className="w-full bg-navy hover:bg-navy-light gap-2"
@@ -157,7 +186,7 @@ export function TravelPriceCalculator() {
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-sm text-red-800">{error}</p>
             <Button
-              onClick={getLocationAndCalculate}
+              onClick={() => getLocationAndCalculate()}
               variant="outline"
               size="sm"
               className="mt-3"

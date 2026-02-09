@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileCTA } from "@/components/MobileCTA";
 import { ChatWidget } from "@/components/chat";
+import { CookieConsent } from "@/components/CookieConsent";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Providers } from "@/components/Providers";
 import { generateLocalBusinessSchema } from "@/lib/schema";
 import { BUSINESS } from "@/lib/constants";
-import { GA_TRACKING_ID } from "@/lib/gtag";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -102,31 +102,16 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">
-        {/* Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_TRACKING_ID}', {
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        />
+        {/* Google Analytics with consent management */}
+        <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_TRACKING_ID || ''} />
+
         <Providers>
           <Header />
           <main className="pb-20 md:pb-0">{children}</main>
           <Footer />
           <MobileCTA />
           <ChatWidget />
+          <CookieConsent />
         </Providers>
       </body>
     </html>

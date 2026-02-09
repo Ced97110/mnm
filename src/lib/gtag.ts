@@ -33,10 +33,11 @@ export const event = ({
 // Type declaration for gtag
 declare global {
   interface Window {
-    gtag: (
+    gtag?: (
       command: string,
       targetId: string,
       config?: Record<string, unknown>
     ) => void;
+    dataLayer?: unknown[];
   }
 }
