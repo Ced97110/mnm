@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { hasConsentedToCookies } from "@/lib/cookies";
@@ -9,7 +9,7 @@ interface GoogleAnalyticsProps {
   measurementId: string;
 }
 
-export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
+function GoogleAnalyticsTracking({ measurementId }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -26,6 +26,10 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
     }
   }, [pathname, searchParams, measurementId]);
 
+  return null;
+}
+
+export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   if (!measurementId) return null;
 
   return (
@@ -54,6 +58,9 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
           `,
         }}
       />
+      <Suspense fallback={null}>
+        <GoogleAnalyticsTracking measurementId={measurementId} />
+      </Suspense>
     </>
   );
 }
