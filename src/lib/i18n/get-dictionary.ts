@@ -23,6 +23,7 @@ export interface Dictionary {
     };
     trust: {
       licensed: string;
+      bilingual: string;
     };
   };
   services: {

@@ -59,14 +59,20 @@ export function Hero({ cityName }: HeroProps) {
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start">
           {/* Left side - Content */}
           <div ref={containerRef}>
-            {/* Badge */}
-            <div data-hero-badge>
+            {/* Badges */}
+            <div data-hero-badge className="flex flex-wrap gap-2 mb-6">
               <Badge
                 variant="secondary"
-                className="mb-6 bg-gold/10 text-navy border-gold/20 px-4 py-1.5"
+                className="bg-gold/10 text-navy border-gold/20 px-4 py-1.5"
               >
                 <CheckCircle className="mr-1.5 h-3.5 w-3.5 text-gold" />
                 {dict.hero.badge}
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="bg-blue-50 text-blue-900 border-blue-200 px-4 py-1.5 font-semibold"
+              >
+                {dict.hero.trust.bilingual}
               </Badge>
             </div>
 
@@ -117,12 +123,17 @@ export function Hero({ cityName }: HeroProps) {
             {/* Trust badges & Credentials */}
             <div
               data-hero-trust
-              className="mt-10 flex flex-wrap items-center gap-4 text-sm text-muted-foreground"
+              className="mt-10 flex flex-wrap items-center gap-4 text-sm"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Shield className="h-5 w-5 text-gold" />
                 <span>{dict.hero.trust.licensed}</span>
               </div>
+              <div className="h-4 w-px bg-border" />
+              <div className="text-blue-700 font-medium">
+                {dict.hero.trust.bilingual}
+              </div>
+              <div className="h-4 w-px bg-border" />
               <Image
                 src="/certificate.png"
                 alt="Notary Certificate"

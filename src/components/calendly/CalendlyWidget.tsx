@@ -2,7 +2,7 @@
 
 import { InlineWidget } from "react-calendly";
 
-const CALENDLY_URL = "https://calendly.com/mobile-notary-management";
+const CALENDLY_URL = "https://calendly.com/eliasgnotary/introductory-call";
 
 interface CalendlyWidgetProps {
   /** Optional: Pre-fill user information */

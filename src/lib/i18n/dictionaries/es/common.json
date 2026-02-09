@@ -19,7 +19,8 @@
       "secondary": "Reservar Cita"
     },
     "trust": {
-      "licensed": "Licenciado y Asegurado"
+      "licensed": "Licenciado y Asegurado",
+      "bilingual": "Bilingüe: Inglés y Español"
     }
   },
   "services": {
