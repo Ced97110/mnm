@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Star } from "lucide-react";
 import { BUSINESS, SERVICES } from "@/lib/constants";
 
 export function Footer() {
@@ -166,7 +166,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Certifications */}
+        {/* Certifications and Rating */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-wrap justify-center items-center gap-6 mb-8">
             <Image
@@ -190,6 +190,19 @@ export function Footer() {
                 height={56}
                 className="h-14 w-14"
               />
+            </a>
+            <a
+              href={BUSINESS.social.googleReview}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/20 rounded-lg hover:bg-gold/20 transition-colors"
+            >
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="h-4 w-4 text-gold fill-gold" />
+                ))}
+              </div>
+              <span className="text-sm font-semibold text-gold">5.0 Rating</span>
             </a>
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
