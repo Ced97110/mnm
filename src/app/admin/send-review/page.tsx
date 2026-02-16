@@ -187,21 +187,33 @@ export default function SendReviewPage() {
                     <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
                     <div className="flex-1">
                       <p className="font-semibold text-green-900 mb-2">
-                        Review Request Scheduled!
+                        Review Request Sent!
                       </p>
-                      {result.data.email && (
+                      {result.data.email && result.data.email.sent && (
                         <p className="text-sm text-green-800 mb-1">
-                          ✓ Email will be sent to: {result.data.email.to}
+                          ✓ Email scheduled for: {result.data.email.to}
                         </p>
                       )}
-                      {result.data.sms && (
-                        <p className="text-sm text-green-800 mb-1">
-                          ✓ SMS will be sent to: {result.data.sms.to}
+                      {result.data.email && !result.data.email.sent && (
+                        <p className="text-sm text-amber-700 mb-1">
+                          ⚠ Email not sent: {result.data.email.error || "Unknown error"}
                         </p>
                       )}
-                      <p className="text-xs text-green-700 mt-2">
-                        Scheduled for: {new Date(result.data.scheduledFor).toLocaleString()}
-                      </p>
+                      {result.data.sms && result.data.sms.sent && (
+                        <p className="text-sm text-green-800 mb-1">
+                          ✓ SMS sent to: {result.data.sms.to}
+                        </p>
+                      )}
+                      {result.data.sms && !result.data.sms.sent && (
+                        <p className="text-sm text-amber-700 mb-1">
+                          ⚠ SMS not sent: {result.data.sms.error || "Unknown error"}
+                        </p>
+                      )}
+                      {result.data.email?.sent && (
+                        <p className="text-xs text-green-700 mt-2">
+                          Email scheduled for: {new Date(result.data.scheduledFor).toLocaleString()}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

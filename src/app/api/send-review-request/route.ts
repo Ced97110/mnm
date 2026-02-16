@@ -1,10 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { Resend } from "resend"; // TODO: Install resend package
+import { Resend } from "resend";
+import twilio from "twilio";
 import { BUSINESS } from "@/lib/constants";
 
 export const runtime = "nodejs";
 
-// const resend = new Resend(process.env.RESEND_API_KEY); // TODO: Uncomment when resend is installed
+// Initialize Resend client for email
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
+// Initialize Twilio client for SMS
+// Supports both Account SID (AC...) and API Key (SK...)
+const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+  ? process.env.TWILIO_ACCOUNT_SID.startsWith('SK')
+    ? twilio(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_AUTH_TOKEN,
+        { accountSid: process.env.TWILIO_MAIN_ACCOUNT_SID }
+      )
+    : twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+  : null;
 
 interface ReviewRequestBody {
   clientName: string;
@@ -58,89 +74,125 @@ Prefer not to receive these emails? Just reply and let me know.
     // Prepare SMS content (shorter)
     const smsBody = `Hi ${clientName}, thank you for choosing Mobile Notary Management! If you have a moment, I'd love a quick review: ${reviewUrl} - It really helps! Text STOP to opt out.`;
 
-    let emailResult = null;
-    let smsResult = null;
+    let emailResult: { sent: boolean; emailId?: string; to?: string; error?: string } | null = null;
+    let smsResult: { sent: boolean; messageSid?: string; to?: string; status?: string; error?: string } | null = null;
 
-    // Send email via Resend with scheduling (NO DATABASE!)
-    if (clientEmail && process.env.RESEND_API_KEY) {
-      try {
-        // TODO: Uncomment when resend is installed
-        /*
-        const result = await resend.emails.send({
-          from: process.env.FROM_EMAIL || "Mobile Notary Management <noreply@mobile-notary-management.com>",
-          to: clientEmail,
-          subject: emailSubject,
-          text: emailBody,
-          scheduledAt: scheduledFor.toISOString(), // Resend handles the scheduling!
-        });
+    // Send email via Resend with scheduling
+    if (clientEmail) {
+      if (resend) {
+        try {
+          const result = await resend.emails.send({
+            from: process.env.FROM_EMAIL || "Mobile Notary Management <noreply@mobile-notary-management.com>",
+            to: clientEmail,
+            subject: emailSubject,
+            text: emailBody,
+            scheduledAt: scheduledFor.toISOString(),
+          });
 
-        emailResult = {
-          sent: true,
-          emailId: result.data?.id,
-          to: clientEmail,
-        };
+          emailResult = {
+            sent: true,
+            emailId: result.data?.id,
+            to: clientEmail,
+          };
 
-        console.log(`✅ Email scheduled for ${clientEmail} at ${scheduledFor.toISOString()}`);
-        */
+          console.log(`✅ Email scheduled for ${clientEmail} at ${scheduledFor.toISOString()}`);
+        } catch (emailError) {
+          console.error("Failed to send email:", emailError);
+          emailResult = {
+            sent: false,
+            to: clientEmail,
+            error: emailError instanceof Error ? emailError.message : "Unknown email error",
+          };
+        }
+      } else {
+        console.warn("⚠️ Resend not configured - RESEND_API_KEY environment variable is missing");
         emailResult = {
           sent: false,
-          message: "Resend package not installed",
-        };
-      } catch (emailError) {
-        console.error("Failed to send email:", emailError);
-        emailResult = {
-          sent: false,
-          error: emailError instanceof Error ? emailError.message : "Unknown error",
+          to: clientEmail,
+          error: "Email service not configured (missing RESEND_API_KEY)",
         };
       }
     }
 
-    // Send SMS via Twilio (optional)
-    if (clientPhone && process.env.TWILIO_ACCOUNT_SID) {
-      try {
-        // TODO: Implement Twilio SMS sending
-        // const twilio = require('twilio');
-        // const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-        // await client.messages.create({
-        //   body: smsBody,
-        //   from: process.env.TWILIO_PHONE_NUMBER,
-        //   to: clientPhone,
-        //   scheduleType: 'fixed',
-        //   sendAt: scheduledFor.toISOString(),
-        // });
+    // Send SMS via Twilio
+    if (clientPhone) {
+      if (twilioClient && process.env.TWILIO_PHONE_NUMBER) {
+        try {
+          // Format phone number (ensure it starts with +1 for US numbers)
+          const formattedPhone = clientPhone.startsWith('+')
+            ? clientPhone
+            : clientPhone.startsWith('1')
+            ? `+${clientPhone}`
+            : `+1${clientPhone.replace(/\D/g, '')}`;
 
+          const message = await twilioClient.messages.create({
+            body: smsBody,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: formattedPhone,
+          });
+
+          smsResult = {
+            sent: true,
+            messageSid: message.sid,
+            to: formattedPhone,
+            status: message.status,
+          };
+
+          console.log(`✅ SMS sent to ${formattedPhone} - SID: ${message.sid}`);
+        } catch (smsError) {
+          console.error("Failed to send SMS:", smsError);
+          smsResult = {
+            sent: false,
+            to: clientPhone,
+            error: smsError instanceof Error ? smsError.message : "Unknown SMS error",
+          };
+        }
+      } else {
+        console.warn("⚠️ Twilio not configured - missing TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, or TWILIO_PHONE_NUMBER");
         smsResult = {
           sent: false,
-          message: "Twilio not configured",
+          to: clientPhone,
+          error: "SMS service not configured (missing Twilio credentials)",
         };
-      } catch (smsError) {
-        console.error("Failed to send SMS:", smsError);
       }
     }
 
+    // Determine actual success based on whether messages were sent
+    const emailSent = emailResult?.sent ?? false;
+    const smsSent = smsResult?.sent ?? false;
+    const anySent = emailSent || smsSent;
+    const allFailed = (clientEmail && !emailSent) && (clientPhone && !smsSent);
+
     const response = {
-      success: true,
-      message: emailResult?.sent ? "Review request scheduled!" : "Review request prepared",
+      success: anySent,
+      message: anySent
+        ? "Review request sent!"
+        : allFailed
+        ? "Failed to send review request - check service configuration"
+        : "No contact method provided",
       data: {
         clientName,
         email: clientEmail ? {
           to: clientEmail,
           subject: emailSubject,
           body: emailBody,
-          sent: emailResult?.sent || false,
-          emailId: (emailResult as any)?.emailId,
+          sent: emailSent,
+          emailId: emailResult?.emailId,
+          error: emailResult?.error,
         } : null,
         sms: clientPhone ? {
-          to: clientPhone,
+          to: smsResult?.to || clientPhone,
           body: smsBody,
-          sent: smsResult?.sent || false,
+          sent: smsSent,
+          messageSid: smsResult?.messageSid,
+          error: smsResult?.error,
         } : null,
         reviewUrl,
-        scheduledFor: scheduledFor.toISOString(),
+        scheduledFor: emailSent ? scheduledFor.toISOString() : new Date().toISOString(),
       },
     };
 
-    return NextResponse.json(response);
+    return NextResponse.json(response, { status: anySent ? 200 : 500 });
   } catch (error) {
     console.error("Error sending review request:", error);
     return NextResponse.json(
