@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 // import { Resend } from "resend"; // TODO: Install resend package
 import { BUSINESS } from "@/lib/constants";
+import twilio from "twilio";
 
 export const runtime = "nodejs";
 
 // const resend = new Resend(process.env.RESEND_API_KEY); // TODO: Uncomment when resend is installed
+
+// Initialize Twilio client
+// Supports both Account SID (AC...) and API Key (SK...)
+const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+  ? process.env.TWILIO_ACCOUNT_SID.startsWith('SK')
+    ? twilio(
+        process.env.TWILIO_ACCOUNT_SID, // API Key SID
+        process.env.TWILIO_AUTH_TOKEN,  // API Key Secret
+        { accountSid: process.env.TWILIO_MAIN_ACCOUNT_SID } // Actual Account SID
+      )
+    : twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+  : null;
 
 interface ReviewRequestBody {
   clientName: string;
@@ -12,6 +25,28 @@ interface ReviewRequestBody {
   clientPhone?: string;
   appointmentDate: string;
   serviceType?: string;
+}
+
+/**
+ * Format phone number to E.164 format (+1XXXXXXXXXX)
+ * Handles: "(510) 555-1234", "510-555-1234", "5105551234", "+15105551234"
+ */
+function formatPhoneNumber(phoneNumber: string): string {
+  // Already formatted
+  if (phoneNumber.startsWith('+')) {
+    return phoneNumber;
+  }
+
+  // Remove all non-digit characters
+  const digitsOnly = phoneNumber.replace(/\D/g, '');
+
+  // Handle country code already present
+  if (digitsOnly.startsWith('1') && digitsOnly.length === 11) {
+    return `+${digitsOnly}`;
+  }
+
+  // Add +1 for US numbers (assume US if no country code)
+  return `+1${digitsOnly}`;
 }
 
 export async function POST(request: NextRequest) {
@@ -96,26 +131,57 @@ Prefer not to receive these emails? Just reply and let me know.
     }
 
     // Send SMS via Twilio (optional)
-    if (clientPhone && process.env.TWILIO_ACCOUNT_SID) {
+    if (clientPhone && twilioClient && (process.env.TWILIO_MESSAGING_SERVICE_SID || process.env.TWILIO_PHONE_NUMBER)) {
       try {
-        // TODO: Implement Twilio SMS sending
-        // const twilio = require('twilio');
-        // const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-        // await client.messages.create({
-        //   body: smsBody,
-        //   from: process.env.TWILIO_PHONE_NUMBER,
-        //   to: clientPhone,
-        //   scheduleType: 'fixed',
-        //   sendAt: scheduledFor.toISOString(),
-        // });
+        // Format phone number to E.164 (+1XXXXXXXXXX)
+        const formattedPhone = formatPhoneNumber(clientPhone);
+
+        // Use Messaging Service SID for A2P 10DLC compliance (preferred)
+        // Falls back to direct phone number if Messaging Service not configured
+        const messageParams: any = {
+          body: smsBody,
+          to: formattedPhone,
+        };
+
+        if (process.env.TWILIO_MESSAGING_SERVICE_SID) {
+          messageParams.messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
+        } else {
+          messageParams.from = process.env.TWILIO_PHONE_NUMBER;
+        }
+
+        const message = await twilioClient.messages.create(messageParams);
 
         smsResult = {
-          sent: false,
-          message: "Twilio not configured",
+          sent: true,
+          messageSid: message.sid,
+          to: formattedPhone,
+          status: message.status,
         };
-      } catch (smsError) {
-        console.error("Failed to send SMS:", smsError);
+
+        console.log(`✅ SMS sent to ${formattedPhone} - SID: ${message.sid}`);
+
+      } catch (twilioError: any) {
+        console.error("Twilio error:", twilioError);
+        smsResult = {
+          sent: false,
+          error: twilioError.message || "Unknown Twilio error",
+          details: twilioError.code || null,
+        };
       }
+    } else if (clientPhone) {
+      // Demo mode - Twilio not configured
+      const formattedPhone = formatPhoneNumber(clientPhone);
+      console.log("📱 DEMO MODE - Would send SMS:");
+      console.log(`   To: ${formattedPhone}`);
+      console.log(`   Message: ${smsBody}`);
+      console.log(`   Note: Configure TWILIO_MESSAGING_SERVICE_SID or TWILIO_PHONE_NUMBER`);
+
+      smsResult = {
+        sent: false,
+        demo: true,
+        message: "Demo mode - Twilio not configured (need TWILIO_MESSAGING_SERVICE_SID or TWILIO_PHONE_NUMBER)",
+        to: formattedPhone,
+      };
     }
 
     const response = {
