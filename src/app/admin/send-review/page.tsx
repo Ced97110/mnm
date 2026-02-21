@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, Clock, Mail, MessageSquare } from "lucide-react";
+import { Send, CheckCircle, Clock, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,6 @@ export default function SendReviewPage() {
   // Pre-fill with today's date for faster entry
   const [formData, setFormData] = useState({
     clientName: "",
-    clientEmail: "",
     clientPhone: "",
     appointmentDate: new Date().toISOString().split("T")[0], // Today by default
     serviceType: "Mobile Notary", // Most common service
@@ -47,7 +46,6 @@ export default function SendReviewPage() {
         // Reset form
         setFormData({
           clientName: "",
-          clientEmail: "",
           clientPhone: "",
           appointmentDate: new Date().toISOString().split("T")[0],
           serviceType: "",
@@ -99,39 +97,21 @@ export default function SendReviewPage() {
                   />
                 </div>
 
-                {/* Contact Info */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="clientEmail">
-                      <Mail className="inline h-4 w-4 mr-1" />
-                      Email
-                    </Label>
-                    <Input
-                      id="clientEmail"
-                      type="email"
-                      value={formData.clientEmail}
-                      onChange={(e) => setFormData({ ...formData, clientEmail: e.target.value })}
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="clientPhone">
-                      <MessageSquare className="inline h-4 w-4 mr-1" />
-                      Phone (SMS)
-                    </Label>
-                    <Input
-                      id="clientPhone"
-                      type="tel"
-                      value={formData.clientPhone}
-                      onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
-                      placeholder="(510) 555-1234"
-                    />
-                  </div>
+                {/* Phone */}
+                <div className="space-y-2">
+                  <Label htmlFor="clientPhone">
+                    <MessageSquare className="inline h-4 w-4 mr-1" />
+                    Phone (SMS) *
+                  </Label>
+                  <Input
+                    id="clientPhone"
+                    type="tel"
+                    value={formData.clientPhone}
+                    onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
+                    placeholder="(510) 555-1234"
+                    required
+                  />
                 </div>
-
-                <p className="text-xs text-muted-foreground">
-                  * At least one contact method (email or phone) is required
-                </p>
 
                 {/* Appointment Date */}
                 <div className="space-y-2">
@@ -193,11 +173,6 @@ export default function SendReviewPage() {
                       <p className="font-semibold text-green-900 mb-2">
                         Review Request Scheduled!
                       </p>
-                      {result.data.email && (
-                        <p className="text-sm text-green-800 mb-1">
-                          ✓ Email will be sent to: {result.data.email.to}
-                        </p>
-                      )}
                       {result.data.sms && (
                         <p className="text-sm text-green-800 mb-1">
                           ✓ SMS will be sent to: {result.data.sms.to}
@@ -230,7 +205,7 @@ export default function SendReviewPage() {
                 <div className="flex items-start gap-2">
                   <Badge variant="outline" className="mt-0.5">2</Badge>
                   <p className="text-muted-foreground">
-                    System schedules email/SMS for 24 hours later
+                    System schedules SMS for 24 hours later
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
@@ -255,7 +230,7 @@ export default function SendReviewPage() {
               </CardHeader>
               <CardContent className="space-y-2 text-sm text-muted-foreground">
                 <p>• Submit form immediately after appointment</p>
-                <p>• Use email for professionals, SMS for individuals</p>
+                <p>• Send SMS right after the appointment</p>
                 <p>• Include service type for personalized message</p>
                 <p>• Only request from satisfied clients</p>
               </CardContent>
@@ -275,22 +250,6 @@ export default function SendReviewPage() {
           </div>
         </div>
 
-        {/* Preview Section */}
-        {result && result.data.email && (
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>Preview: Email That Will Be Sent</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-muted p-4 rounded-lg">
-                <p className="text-sm font-semibold mb-2">Subject: {result.data.email.subject}</p>
-                <pre className="text-sm whitespace-pre-wrap text-muted-foreground">
-                  {result.data.email.body}
-                </pre>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </section>
   );

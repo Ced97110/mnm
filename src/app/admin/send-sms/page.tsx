@@ -1,24 +1,59 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, MessageSquare, Loader2 } from "lucide-react";
+import { Send, CheckCircle, XCircle, MessageSquare, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
+interface BulkResult {
+  to: string;
+  success: boolean;
+  messageSid?: string;
+  error?: string;
+  demo?: boolean;
+}
+
+interface BulkResponse {
+  success: boolean;
+  results: BulkResult[];
+  summary: { total: number; sent: number; failed: number };
+  demo?: boolean;
+}
+
+function parseContacts(text: string): { phoneNumber: string; clientName?: string }[] {
+  return text
+    .split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .map(line => {
+      const commaIndex = line.indexOf(",");
+      if (commaIndex !== -1) {
+        return {
+          phoneNumber: line.slice(0, commaIndex).trim(),
+          clientName: line.slice(commaIndex + 1).trim() || undefined,
+        };
+      }
+      return { phoneNumber: line };
+    });
+}
 
 export default function SendReviewSMS() {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [clientName, setClientName] = useState("");
+  const [bulkText, setBulkText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [results, setResults] = useState<BulkResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const parsedContacts = parseContacts(bulkText);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (parsedContacts.length === 0) return;
+
     setLoading(true);
     setError(null);
-    setResult(null);
+    setResults(null);
 
     try {
       const adminSecret = sessionStorage.getItem("admin_secret") || "";
@@ -28,21 +63,18 @@ export default function SendReviewSMS() {
           "Content-Type": "application/json",
           "x-admin-secret": adminSecret,
         },
-        body: JSON.stringify({
-          phoneNumber,
-          clientName: clientName || undefined,
-        }),
+        body: JSON.stringify({ contacts: parsedContacts }),
       });
 
-      const data = await response.json();
+      const data: BulkResponse = await response.json();
 
-      if (data.success) {
-        setResult(data);
-        // Reset form
-        setPhoneNumber("");
-        setClientName("");
+      if (response.ok) {
+        setResults(data);
+        if (data.summary.failed === 0) {
+          setBulkText("");
+        }
       } else {
-        setError(data.error || "Failed to send SMS");
+        setError((data as any).error || "Failed to send messages");
       }
     } catch (err) {
       setError("Network error. Please try again.");
@@ -50,20 +82,6 @@ export default function SendReviewSMS() {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Format phone number as user types (US format)
-  const formatPhone = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
-    if (match) {
-      return !match[2] ? match[1] : `(${match[1]}) ${match[2]}${match[3] ? `-${match[3]}` : ''}`;
-    }
-    return value;
-  };
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(formatPhone(e.target.value));
   };
 
   return (
@@ -85,72 +103,74 @@ export default function SendReviewSMS() {
         {/* Main Card */}
         <Card className="border-gold/20 shadow-warm">
           <CardHeader>
-            <CardTitle className="text-2xl">Quick Send</CardTitle>
+            <CardTitle className="text-2xl">Send Review Link</CardTitle>
             <CardDescription className="text-base">
-              Client gets instant text with review link. Takes 10 seconds!
+              Enter one or more phone numbers — one per line. Add a name after a comma for personalization.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Phone Number (Required) */}
               <div className="space-y-3">
-                <Label htmlFor="phoneNumber" className="text-base font-semibold">
-                  Client's Phone Number *
+                <Label htmlFor="phoneNumbers" className="text-base font-semibold">
+                  Phone Number(s) *
                 </Label>
-                <Input
-                  id="phoneNumber"
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  placeholder="(510) 555-1234"
-                  required
-                  className="text-lg h-14"
+                <Textarea
+                  id="phoneNumbers"
+                  value={bulkText}
+                  onChange={(e) => setBulkText(e.target.value)}
+                  placeholder={"(510) 555-1234, John\n(925) 123-4567, Sarah\n(415) 987-6543"}
+                  rows={4}
+                  className="text-base font-mono"
                   autoFocus
                 />
                 <p className="text-xs text-muted-foreground">
-                  US numbers only. Will be formatted automatically.
+                  Format: phone number, optional name. US numbers only. One per line.
                 </p>
               </div>
 
-              {/* Client Name (Optional) */}
-              <div className="space-y-3">
-                <Label htmlFor="clientName" className="text-base">
-                  Client's First Name (Optional)
-                </Label>
-                <Input
-                  id="clientName"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                  placeholder="John"
-                  className="text-lg h-12"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Makes message more personal: "Hi John!"
-                </p>
-              </div>
+              {/* Parsed preview */}
+              {parsedContacts.length > 0 && (
+                <div className="p-3 bg-navy/5 rounded-lg border border-navy/10">
+                  <p className="text-xs font-semibold text-navy mb-2">
+                    {parsedContacts.length} contact{parsedContacts.length !== 1 ? "s" : ""} detected:
+                  </p>
+                  <div className="space-y-1">
+                    {parsedContacts.slice(0, 5).map((c, i) => (
+                      <p key={i} className="text-xs text-muted-foreground font-mono">
+                        {c.phoneNumber}{c.clientName ? ` → ${c.clientName}` : ""}
+                      </p>
+                    ))}
+                    {parsedContacts.length > 5 && (
+                      <p className="text-xs text-muted-foreground">
+                        ...and {parsedContacts.length - 5} more
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Send Button */}
               <Button
                 type="submit"
-                disabled={loading || !phoneNumber}
+                disabled={loading || parsedContacts.length === 0}
                 size="lg"
                 className="w-full bg-navy hover:bg-navy-light text-lg h-16 font-semibold"
               >
                 {loading ? (
                   <>
                     <Loader2 className="h-6 w-6 mr-2 animate-spin" />
-                    Sending SMS...
+                    Sending {parsedContacts.length} Message{parsedContacts.length !== 1 ? "s" : ""}...
                   </>
                 ) : (
                   <>
                     <Send className="h-6 w-6 mr-2" />
-                    Send Review Link Now
+                    Send {parsedContacts.length || ""} Message{parsedContacts.length !== 1 ? "s" : ""}
                   </>
                 )}
               </Button>
             </form>
 
-            {/* Error Display */}
+            {/* Error */}
             {error && (
               <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-sm text-red-800">{error}</p>
@@ -165,36 +185,53 @@ export default function SendReviewSMS() {
               </div>
             )}
 
-            {/* Success Display */}
-            {result && (
-              <div className="mt-6 p-6 bg-green-50 border-2 border-green-200 rounded-lg">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex-1">
-                    <p className="font-semibold text-green-900 text-lg mb-2">
-                      SMS Sent! 🎉
+            {/* Results */}
+            {results && (
+              <div className="mt-6 space-y-4">
+                {/* Summary */}
+                <div className={`p-4 rounded-lg border-2 ${
+                  results.summary.failed === 0
+                    ? "bg-green-50 border-green-200"
+                    : "bg-yellow-50 border-yellow-200"
+                }`}>
+                  <p className={`font-semibold text-lg ${
+                    results.summary.failed === 0 ? "text-green-900" : "text-yellow-900"
+                  }`}>
+                    {results.summary.failed === 0
+                      ? results.summary.sent === 1
+                        ? "SMS Sent! 🎉"
+                        : `All ${results.summary.sent} messages sent! 🎉`
+                      : `${results.summary.sent}/${results.summary.total} sent successfully`}
+                  </p>
+                  {results.demo && (
+                    <p className="text-xs text-yellow-800 font-medium mt-2">
+                      ⚠️ Demo Mode: Configure Twilio to actually send SMS
                     </p>
-                    <p className="text-sm text-green-800">
-                      Client will receive text message with review link in a few seconds.
-                    </p>
-                    {result.demo && (
-                      <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                        <p className="text-xs text-yellow-800 font-medium">
-                          ⚠️ Demo Mode: Configure Twilio to actually send SMS
-                        </p>
-                      </div>
-                    )}
-                    {result.data?.message && (
-                      <div className="mt-4 p-3 bg-white/50 rounded border border-green-200">
-                        <p className="text-xs font-semibold text-green-900 mb-1">
-                          Preview of message sent:
-                        </p>
-                        <p className="text-xs text-green-800 whitespace-pre-wrap">
-                          {result.data.message}
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  )}
+                </div>
+
+                {/* Per-number results */}
+                <div className="space-y-2">
+                  {results.results.map((r, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-3 p-3 rounded-lg text-sm ${
+                        r.success
+                          ? "bg-green-50 border border-green-100"
+                          : "bg-red-50 border border-red-100"
+                      }`}
+                    >
+                      {r.success ? (
+                        <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                      ) : (
+                        <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+                      )}
+                      <span className="font-mono text-sm">{r.to || "—"}</span>
+                      {r.error && (
+                        <span className="text-red-600 text-xs ml-auto">{r.error}</span>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -203,7 +240,6 @@ export default function SendReviewSMS() {
 
         {/* Info Cards */}
         <div className="grid gap-4 mt-6 sm:grid-cols-2">
-          {/* When to Use */}
           <Card className="bg-gold/5 border-gold/20">
             <CardHeader>
               <CardTitle className="text-lg">⏰ When to Send</CardTitle>
@@ -216,7 +252,6 @@ export default function SendReviewSMS() {
             </CardContent>
           </Card>
 
-          {/* What Happens */}
           <Card className="bg-navy/5 border-navy/20">
             <CardHeader>
               <CardTitle className="text-lg">📱 What They Get</CardTitle>
@@ -253,8 +288,8 @@ export default function SendReviewSMS() {
         {/* Pro Tip */}
         <div className="mt-6 p-4 bg-cream rounded-lg border border-gold/20">
           <p className="text-sm text-navy">
-            <strong className="text-gold">💡 Pro Tip:</strong> Bookmark this page on your phone's home screen.
-            After each appointment, pull it up and send SMS while packing up. Takes 10 seconds!
+            <strong className="text-gold">💡 Pro Tip:</strong>{" "}
+            Copy-paste numbers from your Snapdocs appointments at end of day. Works with one number or many!
           </p>
         </div>
       </div>
