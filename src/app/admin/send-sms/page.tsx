@@ -21,9 +21,13 @@ export default function SendReviewSMS() {
     setResult(null);
 
     try {
+      const adminSecret = sessionStorage.getItem("admin_secret") || "";
       const response = await fetch("/api/send-review-sms", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": adminSecret,
+        },
         body: JSON.stringify({
           phoneNumber,
           clientName: clientName || undefined,

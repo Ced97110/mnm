@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 // import { Resend } from "resend"; // TODO: Install resend package
 import { BUSINESS } from "@/lib/constants";
 import twilio from "twilio";
+import { verifyAdminSecret } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 
@@ -50,6 +51,9 @@ function formatPhoneNumber(phoneNumber: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  const unauthorized = verifyAdminSecret(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const body: ReviewRequestBody = await request.json();
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import twilio from "twilio";
+import { verifyAdminSecret } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 
@@ -21,6 +22,9 @@ interface SMSRequestBody {
 }
 
 export async function POST(request: NextRequest) {
+  const unauthorized = verifyAdminSecret(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const { phoneNumber, clientName }: SMSRequestBody = await request.json();
 

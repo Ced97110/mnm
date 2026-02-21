@@ -30,9 +30,13 @@ export default function SendReviewPage() {
     setResult(null);
 
     try {
+      const adminSecret = sessionStorage.getItem("admin_secret") || "";
       const response = await fetch("/api/send-review-request", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": adminSecret,
+        },
         body: JSON.stringify(formData),
       });
 
