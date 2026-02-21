@@ -161,6 +161,11 @@ export function Header() {
               </ul>
             </nav>
 
+            {/* Language Switcher */}
+            <div className="px-4 pb-2">
+              <LanguageSwitcher />
+            </div>
+
             {/* CTA Section */}
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-muted/30">
               <p className="text-xs text-muted-foreground mb-3 px-1">{dict.footer.contactMe}</p>
