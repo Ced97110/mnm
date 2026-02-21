@@ -1,9 +1,30 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, Clock, Star } from "lucide-react";
 import { BUSINESS, SERVICES } from "@/lib/constants";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+
+const dictionaries = {
+  en: () => import("@/lib/i18n/dictionaries/en/common.json").then((m) => m.default),
+  es: () => import("@/lib/i18n/dictionaries/es/common.json").then((m) => m.default),
+};
 
 export function Footer() {
+  const pathname = usePathname();
+  const locale = pathname?.startsWith('/es') ? 'es' : 'en';
+  const localePrefix = locale === 'es' ? '/es' : '';
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  useEffect(() => {
+    dictionaries[locale]().then(setDict);
+  }, [locale]);
+
+  if (!dict) return null;
+
   return (
     <footer className="bg-navy text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
@@ -28,8 +49,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
-              Owner-operated mobile notary serving the San Francisco Bay Area.
-              You work directly with me for every appointment. Licensed and insured.
+              {dict.footer.description}
             </p>
             <div className="flex gap-4">
               <a
@@ -59,7 +79,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gold">Contact Me</h3>
+            <h3 className="text-lg font-semibold text-gold">{dict.footer.contactMe}</h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <a
@@ -81,13 +101,13 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-white/80">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Serving the entire Bay Area</span>
+                <span>{dict.footer.servingArea}</span>
               </li>
               <li className="flex items-start gap-3 text-white/80">
                 <Clock className="h-4 w-4 mt-0.5 shrink-0" />
                 <div>
-                  <p>Mon-Fri: {BUSINESS.hours.weekdays}</p>
-                  <p>Sat-Sun: {BUSINESS.hours.weekends}</p>
+                  <p>{dict.footer.hoursWeekdays}: {BUSINESS.hours.weekdays}</p>
+                  <p>{dict.footer.hoursWeekends}: {BUSINESS.hours.weekends}</p>
                 </div>
               </li>
             </ul>
@@ -95,12 +115,12 @@ export function Footer() {
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gold">Services</h3>
+            <h3 className="text-lg font-semibold text-gold">{dict.footer.services}</h3>
             <ul className="space-y-2 text-sm">
               {SERVICES.map((service) => (
                 <li key={service.slug}>
                   <Link
-                    href={`/services/${service.slug}`}
+                    href={`${localePrefix}/services/${service.slug}`}
                     className="text-white/80 hover:text-white transition-colors"
                   >
                     {service.name}
@@ -109,10 +129,10 @@ export function Footer() {
               ))}
               <li>
                 <Link
-                  href="/services"
+                  href={`${localePrefix}/services`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  All Services
+                  {dict.footer.allServices}
                 </Link>
               </li>
             </ul>
@@ -120,11 +140,11 @@ export function Footer() {
 
           {/* Resources */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gold">Resources</h3>
+            <h3 className="text-lg font-semibold text-gold">{dict.footer.resources}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/blog"
+                  href={`${localePrefix}/blog`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
                   Blog
@@ -132,34 +152,34 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#pricing"
+                  href={`${localePrefix}/#pricing`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  Pricing
+                  {dict.nav.pricing}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#faq"
+                  href={`${localePrefix}/#faq`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  FAQ
+                  {dict.nav.faq}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/booking"
+                  href={`${localePrefix}/booking`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  Book Appointment
+                  {dict.footer.bookAppointment}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/privacy"
+                  href={`${localePrefix}/privacy`}
                   className="text-white/80 hover:text-white transition-colors"
                 >
-                  Privacy Policy
+                  {dict.footer.privacyPolicy}
                 </Link>
               </li>
             </ul>
@@ -207,7 +227,7 @@ export function Footer() {
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <p>© {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.</p>
-            <p>Licensed & Insured • NNA Certified Signing Agent</p>
+            <p>{dict.footer.certified}</p>
           </div>
         </div>
       </div>
