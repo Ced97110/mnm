@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const reviewRequestTime = new Date(endTime.getTime() + 24 * 60 * 60 * 1000);
 
     // Prepare review request email
-    const reviewUrl = "https://mobile-notary-management.com/leave-review";
+    const reviewUrl = "https://share.google/oyAsFNHkycJxCdxIY";
     const emailBody = `
 Hi ${invitee.name.split(" ")[0]},
 

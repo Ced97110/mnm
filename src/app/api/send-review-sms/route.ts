@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       ? `+${phoneNumber}`
       : `+1${phoneNumber.replace(/\D/g, '')}`; // Remove non-digits and add +1
 
-    const reviewUrl = "https://mobile-notary-management.com/leave-review";
+    const reviewUrl = "https://share.google/oyAsFNHkycJxCdxIY";
 
     // Short, friendly SMS message
     const greeting = clientName ? `Hi ${clientName.split(' ')[0]}!` : "Hi!";

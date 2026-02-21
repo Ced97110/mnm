@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const reviewUrl = "https://mobile-notary-management.com/leave-review";
+    const reviewUrl = "https://share.google/oyAsFNHkycJxCdxIY";
     const scheduledFor = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
 
     // Prepare email content
