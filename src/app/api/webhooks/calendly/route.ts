@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const reviewRequestTime = new Date(endTime.getTime() + 24 * 60 * 60 * 1000);
 
     // Prepare review request email
-    const reviewUrl = "https://share.google/oyAsFNHkycJxCdxIY";
+    const reviewUrl = "https://g.page/r/CVzknXneT7yeEBM/review";
     const emailBody = `
 Hi ${invitee.name.split(" ")[0]},
 

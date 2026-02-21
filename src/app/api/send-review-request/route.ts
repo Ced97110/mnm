@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const reviewUrl = "https://share.google/oyAsFNHkycJxCdxIY";
+    const reviewUrl = "https://g.page/r/CVzknXneT7yeEBM/review";
     const scheduledFor = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
 
     // Prepare email content

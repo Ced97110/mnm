@@ -21,7 +21,7 @@ export const BUSINESS = {
   social: {
     yelp: "https://www.yelp.com/biz/mobile-notary-management-hercules-12",
     google: "https://g.page/mobile-notary-management",
-    googleReview: "https://share.google/oyAsFNHkycJxCdxIY", // Direct Google review link
+    googleReview: "https://g.page/r/CVzknXneT7yeEBM/review", // Direct Google review link
     signingAgent: "https://www.signingagent.com/profile/160835769",
   },
   yearsInBusiness: 5,
