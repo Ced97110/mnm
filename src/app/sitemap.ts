@@ -4,6 +4,7 @@ import { getAllServicePageSlugs, getAllBlogPosts } from "@/lib/get-content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://mobile-notary-management.com";
+  const siteLastModified = new Date("2026-02-20");
 
   // Helper to create bilingual entries
   const createBilingualEntry = (path: string, options: {
@@ -17,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return [
       {
         url: englishUrl,
-        lastModified: options.lastModified || new Date(),
+        lastModified: options.lastModified || siteLastModified,
         changeFrequency: options.changeFrequency || "monthly" as const,
         priority: options.priority || 0.5,
         alternates: {
@@ -29,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
       {
         url: spanishUrl,
-        lastModified: options.lastModified || new Date(),
+        lastModified: options.lastModified || siteLastModified,
         changeFrequency: options.changeFrequency || "monthly" as const,
         priority: options.priority || 0.5,
         alternates: {
@@ -47,7 +48,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...createBilingualEntry('', { changeFrequency: "weekly", priority: 1 }),
     ...createBilingualEntry('/booking', { changeFrequency: "monthly", priority: 0.9 }),
     ...createBilingualEntry('/about', { changeFrequency: "monthly", priority: 0.7 }),
+    ...createBilingualEntry('/leave-review', { changeFrequency: "yearly", priority: 0.4 }),
     ...createBilingualEntry('/privacy', { changeFrequency: "yearly", priority: 0.3 }),
+    ...createBilingualEntry('/sms-terms', { changeFrequency: "yearly", priority: 0.2 }),
   ];
 
   // Service area pages (all 33 cities, bilingual)
