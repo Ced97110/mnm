@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CalendlyWidget } from "@/components/calendly";
 import { BUSINESS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -29,29 +28,28 @@ export default function BookingPage() {
           </p>
         </div>
 
-        {/* Calendly Widget */}
-        <div className="bg-card rounded-2xl border border-border shadow-warm overflow-hidden">
-          <CalendlyWidget />
-        </div>
-
-        {/* Alternative Contact */}
-        <div className="mt-9 text-center">
-          <p className="text-muted-foreground">
-            Prefer to speak with someone?{" "}
-            <a 
-              href={BUSINESS.phoneLink} 
-              className="text-navy font-medium hover:text-gold transition-colors"
+        {/* Contact Options */}
+        <div className="bg-card rounded-2xl border border-border shadow-warm p-8 md:p-12 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
+            Get in Touch
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+            Ready to schedule your appointment? Contact us directly and we&apos;ll find a time that works for you.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={BUSINESS.phoneLink}
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy text-white font-semibold hover:bg-navy/90 transition-colors"
             >
               Call {BUSINESS.phone}
             </a>
-            {" "}or{" "}
-            <a 
+            <a
               href={BUSINESS.textLink}
-              className="text-navy font-medium hover:text-gold transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl border-2 border-navy text-navy font-semibold hover:bg-navy/5 transition-colors"
             >
-              send a text
+              Send a Text
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </section>
